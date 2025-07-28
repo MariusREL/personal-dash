@@ -23,6 +23,7 @@
     width: 100%;
     justify-items: center;
     align-items: center;
+    letter-spacing: 1px;
 }
 
 .hero-container div{
@@ -47,12 +48,12 @@ nav>div:nth-child(3) {
   justify-self: right;
   margin-right: 7%;
 }
-
 .profile-picture{
   width: 25px;
   height: 25px;
   border-radius: 50%;
 }
+
 .get-started{
   width: 4.5rem;
   height: 25px;
