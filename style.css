@@ -17,20 +17,21 @@
   margin: 1% auto;
   border-radius: 20px;
   background: url("./img/alessio-soggetti-GYr9A2CPMhY-unsplash.jpg") center/cover no-repeat;
+  display: grid;
+  grid-template-rows: 15% 1fr 20%
 }
 .hero-container > nav{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    height: 15%;
     width: 100%;
     justify-items: center;
     align-items: center;
     letter-spacing: 1px;
     font-family: "Varela", sans-serif;
+    color: #4a5759;
 }
 
-.hero-container div{
-  /* background-color: brown; */
+nav > div{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +40,7 @@
 .hamburger{
   border: none;
   background-color: transparent;
+  color: #4a5759;
   cursor: pointer;
 }
 
@@ -67,4 +69,10 @@ nav>div:nth-child(3) {
   font-size: 7px;
   font-weight: 100;
   cursor: pointer;
+}
+
+.header-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
