@@ -5,6 +5,37 @@
   margin: 0;
   padding: 0;
 }
-body {
-  background-color: rgb(68, 68, 245);
+
+.hero-container{
+  max-width: 95%;
+  height: 60vh;
+  margin: 0.75rem auto;
+  border-radius: 20px;
+  background: url("./img/alessio-soggetti-GYr9A2CPMhY-unsplash.jpg") center/cover no-repeat;
+}
+.hero-container > nav{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 15%;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.hero-container div{
+  background-color: brown;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+nav > div:nth-child(1){
+justify-self: left;
+margin-left: 10px;
+}
+nav>div:nth-child(3) {
+  justify-self: right;
+  margin-right: 10px;
 }
