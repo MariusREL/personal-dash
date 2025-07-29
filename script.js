@@ -7,10 +7,10 @@ async function getWeatherData() {
   let response = await fetch(weatherUrl);
   if (!response.ok) {
     console.error("error");
+    return null
   }
   let weatherData = await response.json();
-  console.table(weatherData);
   return weatherData;
 }
 
-getWeatherData();
+console.log(getWeatherData());
