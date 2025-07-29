@@ -76,3 +76,25 @@ nav>div:nth-child(3) {
   flex-direction: column;
   justify-content: center;
 }
+
+.last-trip{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.trip-logger{
+    max-width: 97%;
+      height: 20vh;
+      margin: 5% auto;
+      border-radius: 20px;
+        background: url("./img/alessio-soggetti-GYr9A2CPMhY-unsplash.jpg") center/cover no-repeat;
+}
+.weather-container {
+      max-width: 97%;
+        height: 20vh;
+        margin: 10% auto;
+        border-radius: 20px;
+        background: url("./img/alessio-soggetti-GYr9A2CPMhY-unsplash.jpg") center/cover no-repeat;
+}
