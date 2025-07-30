@@ -53,13 +53,14 @@ const forecasts = time.map((timestamp, i) => ({
 const getWeatherCard = function (arr) {
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
-    const temp = forecast.temperature;
+    const tempElem = document.createElement("span");
+    tempElem.textContent = forecast.temperature;
     const iconImg = document.createElement("img");
     const time = document.createElement("p");
     time.textContent = forecast.time.getHours() + ":00";
-    iconImg.style.cssText = "width: 50px, height: 50px";
+    iconImg.style.cssText = "width: 50px; height: 50px;";
     iconImg.setAttribute("src", forecast.icon);
-    weatherCard.textContent = temp;
+    weatherCard.appendChild(tempElem);
     weatherCard.appendChild(iconImg);
     weatherCard.appendChild(time);
     weatherCard.classList.add("weather-card");
