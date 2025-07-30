@@ -24,7 +24,7 @@ a:visited {
 }
 .hero-container > nav {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
   width: 100%;
   justify-items: center;
   align-items: center;
@@ -38,7 +38,8 @@ nav > div {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 20px;
+  flex: 1 1 auto;
 }
 .hamburger {
   border: none;
@@ -132,4 +133,16 @@ nav > div:nth-child(3) {
 }
 .time {
   color: #4a5759;
+}
+
+@media (max-width: 768px) {
+  .hero-container .nav {
+    grid-template-columns: 10% 1fr 1fr;
+  }
+
+  nav>div:nth-child(1)>div:nth-child(2),
+  nav>div:nth-child(1)>div:nth-child(3) {
+    display: none;
+  }
+
 }
