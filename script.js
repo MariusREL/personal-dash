@@ -65,9 +65,9 @@ const getWeatherCard = function (arr) {
     time.textContent = forecast.time.getHours() + ":00";
     iconImg.style.cssText = "width: 50px; height: 50px;";
     iconImg.setAttribute("src", forecast.icon);
-    weatherCard.appendChild(tempElem);
-    weatherCard.appendChild(iconImg);
     weatherCard.appendChild(time);
+    weatherCard.appendChild(iconImg);
+    weatherCard.appendChild(tempElem);
     weatherCard.classList.add("weather-card");
     weatherContainer.appendChild(weatherCard);
   });
@@ -89,3 +89,5 @@ h1Header.innerHTML =
 headerText.appendChild(h1Header);
 
 console.log(futureForecasts);
+
+console.log(weatherCodes);

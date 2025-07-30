@@ -19,7 +19,7 @@ export const weatherCodeToIcon = {
   73: "snow_moderate",
   75: "snow_heavy",
   77: "snow_grains",
-  80: "rain_shower_light",
+  80: "./icons/partly-cloudy-day-drizzle.svg",
   81: "rain_shower_moderate",
   82: "rain_shower_heavy",
   85: "snow_shower_light",

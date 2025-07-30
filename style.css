@@ -124,10 +124,11 @@ nav > div:nth-child(3) {
   align-items: center;
   justify-items: center;
   max-width: 97%;
-  height: fit-content;
+  height: 20vh;
   margin: 1% auto;
   border-radius: 20px;
   padding: 10px;
+  background-color: rgb(195, 218, 248, 0.3);
 }
 
 .weather-card-container > * {
@@ -145,6 +146,7 @@ nav > div:nth-child(3) {
 }
 .time {
   color: #4a5759;
+  font-size: 1.3rem;
 }
 
 @media (max-width: 768px) {
@@ -154,7 +156,9 @@ nav > div:nth-child(3) {
   .hamburger {
     margin-left: 2rem;
   }
-
+  .logo {
+    justify-self: right;
+  }
   nav > div:nth-child(1) > div:nth-child(2),
   nav > div:nth-child(1) > div:nth-child(3) {
     display: none;
