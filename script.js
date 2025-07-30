@@ -40,16 +40,6 @@ const forecasts = time.map((timestamp, i) => ({
   icon: getWeatherIcon(weatherCodes[i]),
 }));
 
-// console.log(forecasts[0]);
-
-// for (let i = 0; i < 8; i++) {
-//   const displayIcon = document.createElement("img");
-//   displayIcon.setAttribute("src", forecasts[i].icon);
-//   displayIcon.style.height = "75px";
-//   displayIcon.style.width = "75px"; // Fixed: was "100x"
-//   weatherContainer.appendChild(displayIcon);
-// }
-
 const getWeatherCard = function (arr) {
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
@@ -57,6 +47,7 @@ const getWeatherCard = function (arr) {
     tempElem.textContent = forecast.temperature;
     const iconImg = document.createElement("img");
     const time = document.createElement("p");
+    time.classList.add("time");
     time.textContent = forecast.time.getHours() + ":00";
     iconImg.style.cssText = "width: 50px; height: 50px;";
     iconImg.setAttribute("src", forecast.icon);
