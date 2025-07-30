@@ -21,6 +21,8 @@ const weatherData = await getDailyWeatherData();
 
 // Destructuring weatherdata to make it easier to work with
 const {
+  longitude,
+  latitude,
   hourly: {
     time,
     temperature_2m: temperatures,
