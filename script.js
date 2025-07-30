@@ -3,7 +3,8 @@ import { weatherCodeToIcon } from "./weathercodes.js";
 const weatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,weather_code,is_day&forecast_hours=8";
 
-const weatherContainer = document.querySelector("#weather-container");
+const weatherContainer = document.querySelector("#weather-card-container");
+console.log(weatherContainer);
 
 async function getDailyWeatherData() {
   let response = await fetch(weatherUrl);
@@ -31,7 +32,7 @@ function getWeatherIcon(weatherCode) {
   return weatherCodeToIcon[weatherCode];
 }
 
-const forecast = time.map((timestamp, i) => ({
+const forecasts = time.map((timestamp, i) => ({
   time: new Date(timestamp),
   temperature: temperatures[i] + tempUnit,
   weatherCode: weatherCodes[i],
@@ -39,12 +40,31 @@ const forecast = time.map((timestamp, i) => ({
   icon: getWeatherIcon(weatherCodes[i]),
 }));
 
-console.log(forecast[0]);
+// console.log(forecasts[0]);
 
-for (let i = 0; i < 8; i++) {
-  const displayIcon = document.createElement("img");
-  displayIcon.setAttribute("src", forecast[i].icon);
-  displayIcon.style.height = "75px";
-  displayIcon.style.width = "75px"; // Fixed: was "100x"
-  weatherContainer.appendChild(displayIcon);
-}
+// for (let i = 0; i < 8; i++) {
+//   const displayIcon = document.createElement("img");
+//   displayIcon.setAttribute("src", forecasts[i].icon);
+//   displayIcon.style.height = "75px";
+//   displayIcon.style.width = "75px"; // Fixed: was "100x"
+//   weatherContainer.appendChild(displayIcon);
+// }
+
+const getWeatherCard = function (arr) {
+  arr.forEach((forecast) => {
+    const weatherCard = document.createElement("div");
+    const temp = forecast.temperature;
+    const iconImg = document.createElement("img");
+    const time = document.createElement("p");
+    time.textContent = forecast.time.getHours() + ":00";
+    iconImg.style.cssText = "width: 50px, height: 50px";
+    iconImg.setAttribute("src", forecast.icon);
+    weatherCard.textContent = temp;
+    weatherCard.appendChild(iconImg);
+    weatherCard.appendChild(time);
+    weatherCard.classList.add("weather-card");
+    weatherContainer.appendChild(weatherCard);
+    console.log(forecast);
+  });
+};
+getWeatherCard(forecasts);

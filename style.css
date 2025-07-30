@@ -101,7 +101,7 @@ nav > div:nth-child(3) {
   align-items: center;
 }
 
-.weather-container {
+.weather-card-container {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   align-items: center;
@@ -112,7 +112,9 @@ nav > div:nth-child(3) {
   background-color: aqua;
 }
 
-.weather-container > * {
+.weather-card-container > * {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
