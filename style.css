@@ -102,9 +102,17 @@ nav > div:nth-child(3) {
 }
 
 .weather-container {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
   max-width: 97%;
   height: 20vh;
   margin: 10% auto;
   border-radius: 20px;
   background-color: aqua;
+}
+
+.weather-container > * {
+  display: flex;
+  flex-direction: column;
 }
