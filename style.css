@@ -6,6 +6,9 @@
   margin: 0;
   padding: 0;
 }
+:root{
+  --default-font-family: "Varela", sans-serif;
+}
 
 :link,
 a:visited {
@@ -80,6 +83,17 @@ nav > div:nth-child(3) {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: white;
+}
+
+.header-h1{
+  max-width: 50%;
+  font-size: 1.5rem;
+  font-weight: 100;
+  margin-left: 5%; 
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-family: var(--default-font-family)
 }
 
 .last-trip {
@@ -119,14 +133,13 @@ nav > div:nth-child(3) {
 .weather-card-container > * {
   display: flex;
   color:#c75248;
-  font-weight: 600;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%; 
   height: 150px;
   gap: 5px;
-  background-color: rgb(74, 87, 89, 0.05);
+  background-color: rgb(74, 87, 89, 0.03);
   border: #4a5759 solid 0.5px;
   border-radius: 10px;
 
@@ -144,5 +157,4 @@ nav > div:nth-child(3) {
   nav>div:nth-child(1)>div:nth-child(3) {
     display: none;
   }
-
 }
