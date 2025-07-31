@@ -116,6 +116,7 @@ nav > div:nth-child(3) {
   justify-items: center;
   align-items: center;
 }
+.weather
 
 .weather-card-container {
   display: grid;
@@ -124,11 +125,10 @@ nav > div:nth-child(3) {
   align-items: center;
   justify-items: center;
   max-width: 97%;
-  height: 20vh;
+  height: fit-content;
   margin: 1% auto;
   border-radius: 20px;
-  padding: 10px;
-  background-color: rgb(195, 218, 248, 0.3);
+
 }
 
 .weather-card-container > * {

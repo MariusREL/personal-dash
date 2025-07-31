@@ -1,12 +1,12 @@
 import { workouts } from "./workouts.js";
 
-// WeatherAPI and display of daily forecast
+const weeklyWeatherUrl =
+  "https://api.open-meteo.com/v1/forecast?latitude=60.393&longitude=5.3242&daily=weather_code&current=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_hours=12&past_hours=1";
+
+// Hourly WeatherAPI and display of daily forecast
 import { weatherCodeToIcon } from "./weathercodes.js";
 const weatherUrl =
-  "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,weather_code,is_day&forecast_days=1";
-
-const weatherContainer = document.querySelector("#weather-card-container");
-console.log(weatherContainer);
+  "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=1";
 
 async function getDailyWeatherData() {
   let response = await fetch(weatherUrl);
@@ -19,17 +19,25 @@ async function getDailyWeatherData() {
 }
 const weatherData = await getDailyWeatherData();
 
+console.log(weatherData);
+
 // Destructuring weatherdata to make it easier to work with
 const {
   longitude,
   latitude,
   hourly: {
+    precipitation,
     time,
     temperature_2m: temperatures,
     weather_code: weatherCodes,
+    wind_speed_10m: windSpeed,
     is_day: isDay,
   },
-  hourly_units: { temperature_2m: tempUnit },
+  hourly_units: {
+    precipitation: rainUnits,
+    temperature_2m: tempUnit,
+    wind_speed_10m: windUnit,
+  },
 } = weatherData;
 
 function getWeatherIcon(weatherCode) {
@@ -38,11 +46,14 @@ function getWeatherIcon(weatherCode) {
 
 const forecasts = time.map((timestamp, i) => ({
   time: new Date(timestamp),
+  windspeed: windSpeed[i] + windUnit,
+  precipitation: precipitation[i] + rainUnits,
   temperature: temperatures[i] + tempUnit,
   weatherCode: weatherCodes[i],
   isDay: Boolean(isDay[i]),
   icon: getWeatherIcon(weatherCodes[i]),
 }));
+console.log(forecasts);
 
 // Filter to get only the next 8 hours from now
 const now = new Date();
@@ -54,6 +65,8 @@ const futureForecasts = forecasts
   .slice(0, 8);
 
 //   generate the weathercard for the dom
+const weatherContainer = document.querySelector("#weather-card-container");
+
 const getWeatherCard = function (arr) {
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
@@ -87,7 +100,3 @@ const currentTemp =
 h1Header.innerHTML =
   `It's ${currentTemp} degrees right now, perfect conditions to go outside`.toLocaleUpperCase();
 headerText.appendChild(h1Header);
-
-console.log(futureForecasts);
-
-console.log(weatherCodes);

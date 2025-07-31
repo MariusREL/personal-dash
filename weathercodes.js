@@ -10,7 +10,7 @@ export const weatherCodeToIcon = {
   55: "drizzle_dense",
   56: "freezing_drizzle_light",
   57: "freezing_drizzle_dense",
-  61: "rain_light",
+  61: "./icons/drizzle.svg",
   63: "rain_moderate",
   65: "rain_heavy",
   66: "freezing_rain_light",
