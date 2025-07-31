@@ -100,3 +100,7 @@ const currentTemp =
 h1Header.innerHTML =
   `It's ${currentTemp} degrees right now, perfect conditions to go outside`.toLocaleUpperCase();
 headerText.appendChild(h1Header);
+
+const date = document.querySelector(".date");
+
+date.textContent = now.toDateString();
