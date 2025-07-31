@@ -188,6 +188,10 @@ nav > div:nth-child(3) {
   font-size: 1.3rem;
 }
 
+.weather-card img{
+  filter: brightness(0.4) contrast(1.5);
+}
+
 
 
 @media (max-width: 768px) {
