@@ -134,9 +134,9 @@ nav > div:nth-child(3) {
   justify-self: left;
   margin-left: 6%;
   font: var(--default-font-family);
-  color: whitesmoke;
+  color: #4a5759;
   letter-spacing: 0.8px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   align-self: end
 }
 .weather-titles>div:nth-child(2){
@@ -147,7 +147,7 @@ nav > div:nth-child(3) {
 .date {
   font-family: var(--default-font-family);
   color: #4a5759;
-  font-size: 0.6rem;
+  font-size:0.8rem;
   align-self: end;
   justify-self: right;
   margin-right: 7%;
@@ -163,6 +163,8 @@ nav > div:nth-child(3) {
   height: fit-content;
   margin: 1% auto;
   border-radius: 20px;
+  background-color: rgba(106, 203, 216, 0.7);
+  padding: 2%;
   
 
 }
@@ -176,7 +178,7 @@ nav > div:nth-child(3) {
   width: 100%;
   height: 150px;
   gap: 5px;
-  background-color: rgba(186, 215, 219, 0.7);
+  
   border: #4a5759 solid 0.5px;
   border-radius: 10px;
 }
