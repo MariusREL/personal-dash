@@ -5,7 +5,7 @@ export const weatherCodeToIcon = {
   3: "./icons/overcast.svg",
   45: "fog",
   48: "rime_fog",
-  51: "drizzle_light",
+  51: "./icons/drizzle.svg",
   53: "drizzle_moderate",
   55: "drizzle_dense",
   56: "freezing_drizzle_light",

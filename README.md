@@ -11,5 +11,3 @@ develop functionality for adding workouts to workout.js
 save changes to localstorage
 
 display the total time spent biking, running and hiking and connect be able to filter it according to weather
-
-Here's the complete step-by-step walkthrough of the logical thought process for destructuring and transforming API data:
