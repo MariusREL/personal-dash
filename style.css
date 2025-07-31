@@ -117,7 +117,7 @@ nav > div:nth-child(3) {
   align-items: center;
 }
 .weather-section {
-  background: url("./img/shttefan-viNPa2F7fnw-unsplash.jpg") center/cover no-repeat;
+  background: url("./img/maddison-mcmurrin-GDumtPpJsT4-unsplash.jpg") top/cover no-repeat;
   border-radius: 10px;
   max-width: 97%;
   margin: 0 auto;
@@ -128,25 +128,26 @@ nav > div:nth-child(3) {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
+  
 
 }
 .weather-titles > div:nth-child(1){
   justify-self: left;
   margin-left: 6%;
-  font: var(--default-font-family);
-  color: #4a5759;
+  font-family: var(--default-font-family);
+  color: rgb(251, 235, 235);
   letter-spacing: 0.8px;
   font-size: 0.8rem;
-  align-self: end
+  align-self: end;
 }
 .weather-titles>div:nth-child(2){
   font-family: var(--default-font-family);
-  color: #4a5759;
+  color: rgb(251, 235, 235);
   letter-spacing: 0.8px;
 }
 .date {
   font-family: var(--default-font-family);
-  color: #4a5759;
+  color: rgb(251, 235, 235);
   font-size:0.8rem;
   align-self: end;
   justify-self: right;
@@ -163,7 +164,7 @@ nav > div:nth-child(3) {
   height: fit-content;
   margin: 1% auto;
   border-radius: 20px;
-  background-color: rgba(106, 203, 216, 0.7);
+  background-color: rgba(234, 234, 234, 0.7);
   padding: 2%;
   
 
