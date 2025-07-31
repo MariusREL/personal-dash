@@ -73,11 +73,16 @@ const getWeatherCard = function (arr) {
     const tempElem = document.createElement("span");
     tempElem.textContent = forecast.temperature;
     const iconImg = document.createElement("img");
+
     const time = document.createElement("p");
     time.classList.add("time");
     time.textContent = forecast.time.getHours() + ":00";
     iconImg.style.cssText = "width: 50px; height: 50px;";
     iconImg.setAttribute("src", forecast.icon);
+
+    const wind = document.createElement("p");
+    wind.textContent(``);
+
     weatherCard.appendChild(time);
     weatherCard.appendChild(iconImg);
     weatherCard.appendChild(tempElem);
