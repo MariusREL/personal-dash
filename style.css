@@ -104,18 +104,45 @@ nav > div:nth-child(3) {
   gap: 10px;
 }
 
-.trip-logger {
+
+/* Log your trip buttons/graphic */
+.logger-cards {
   max-width: 97%;
-  height: 20vh;
+  min-height: 20vh;
+  max-height: 25vh;
   margin: 5% auto;
   border-radius: 20px;
-  background-color: rgb(193, 232, 219);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   justify-items: center;
   align-items: center;
 }
+
+.bike{
+  width: 90%;
+  height: 80%;
+  background: url("./img/patrick-hendry-1ow9zrlldJU-unsplash.jpg") center/cover no-repeat;
+  background-color: #4a5759;
+  border-radius: 8px;
+}
+.run {
+  width: 90%;
+  height: 80%;
+  background: url("./img/chris-z4P3I52t7-E-unsplash.jpg") center/cover no-repeat;
+  border-radius: 8px;
+}
+.hike {
+  width: 90%;
+  height: 80%;
+  background: url("./img/kalen-emsley-G1qxBDxM8vE-unsplash.jpg") center/cover no-repeat;
+  background-color: #4a5759;
+  border-radius: 8px;
+}
+
+
+
+/* Weather Section */
 .weather-section {
   background: url("./img/maddison-mcmurrin-GDumtPpJsT4-unsplash.jpg") top/cover no-repeat;
   border-radius: 10px;
@@ -191,6 +218,10 @@ nav > div:nth-child(3) {
 .weather-card img{
   filter: brightness(0.4) contrast(1.5);
 }
+
+
+
+
 
 
 

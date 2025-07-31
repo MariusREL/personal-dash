@@ -71,7 +71,8 @@ const getWeatherCard = function (arr) {
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
     const tempElem = document.createElement("span");
-    tempElem.textContent = forecast.temperature;
+    tempElem.textContent =
+      Math.floor(parseFloat(forecast.temperature)) + tempUnit;
     const iconImg = document.createElement("img");
 
     const time = document.createElement("p");
