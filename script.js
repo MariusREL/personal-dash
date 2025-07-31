@@ -46,7 +46,7 @@ function getWeatherIcon(weatherCode) {
 
 const forecasts = time.map((timestamp, i) => ({
   time: new Date(timestamp),
-  windspeed: windSpeed[i] + windUnit,
+  windSpeed: windSpeed[i] + windUnit,
   precipitation: precipitation[i] + rainUnits,
   temperature: temperatures[i] + tempUnit,
   weatherCode: weatherCodes[i],
@@ -80,12 +80,20 @@ const getWeatherCard = function (arr) {
     iconImg.style.cssText = "width: 50px; height: 50px;";
     iconImg.setAttribute("src", forecast.icon);
 
+    const windIcon = document.createElement("img");
+    windIcon.setAttribute("src", "./icons/wind.svg");
+    windIcon.style.cssText =
+      "width: 20px; height: 20px; vertical-align: middle; margin-left: 4px;";
     const wind = document.createElement("p");
-    wind.textContent(``);
+    wind.style.cssText = "color: #4a5759; font-size: 0.6rem; margin-left: 10%";
+    wind.textContent =
+      Math.floor(parseFloat(forecast.windSpeed)) + " " + windUnit;
+    wind.appendChild(windIcon);
 
     weatherCard.appendChild(time);
     weatherCard.appendChild(iconImg);
     weatherCard.appendChild(tempElem);
+    weatherCard.appendChild(wind);
     weatherCard.classList.add("weather-card");
     weatherContainer.appendChild(weatherCard);
   });
