@@ -106,11 +106,18 @@ nav > div:nth-child(3) {
 
 
 /* Log your trip buttons/graphic */
+
+.trip-logger > h1{
+  font-family: var(--default-font-family);
+  color: #4a5759;
+  text-align: center;
+  margin-top: 2%;
+}
 .logger-cards {
   max-width: 97%;
   min-height: 20vh;
   max-height: 25vh;
-  margin: 5% auto;
+  margin: 0 auto;
   border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -138,6 +145,15 @@ nav > div:nth-child(3) {
   background: url("./img/kalen-emsley-G1qxBDxM8vE-unsplash.jpg") center/cover no-repeat;
   background-color: #4a5759;
   border-radius: 8px;
+}
+.hike, .run, .bike{
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  color: #4a5759;
+  letter-spacing: 0.5px;
+  font-family: var(--default-font-family);
+  text-shadow: 1px 1px 1px white;
 }
 
 
