@@ -251,6 +251,10 @@ nav > div:nth-child(3) {
   .hero-container .nav {
     grid-template-columns: 10% 1fr 1fr;
   }
+    .header-h1{
+      margin-bottom: 20%;
+      max-width: 60%;
+    }
   
   .hamburger {
     margin-left: 2rem;
