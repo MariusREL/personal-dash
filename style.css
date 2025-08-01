@@ -185,10 +185,12 @@ nav > div:nth-child(3) {
   display: flex;
   justify-content: center;
   align-items: start;
-  color: rgb(246, 234, 234);
+  color: #4a5759;
   letter-spacing: 0.5px;
+  font-size: 1.2rem;
   font-family: var(--default-font-family);
-  text-shadow: 1px 1px 1px black;
+  text-shadow: -1px 1px 1px  white;
+  font-weight: 100;
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
@@ -254,7 +256,7 @@ nav > div:nth-child(3) {
   height: fit-content;
   margin: 1% auto;
   border-radius: 20px;
-  background-color: rgba(234, 234, 234, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 2%;
   
 
@@ -270,7 +272,7 @@ nav > div:nth-child(3) {
   height: 150px;
   gap: 5px;
   
-  border: #4a5759 solid 0.5px;
+  border: #4a5759 solid 1px;
   border-radius: 10px;
 }
 .time {
