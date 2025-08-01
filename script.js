@@ -6,7 +6,7 @@ const weeklyWeatherUrl =
 // Hourly WeatherAPI and display of daily forecast
 import { weatherCodeToIcon } from "./weathercodes.js";
 const weatherUrl =
-  "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=1";
+  "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=2";
 
 async function getDailyWeatherData() {
   let response = await fetch(weatherUrl);
@@ -129,3 +129,5 @@ headerText.appendChild(h1Header);
 const date = document.querySelector(".date");
 
 date.textContent = now.toDateString();
+
+console.log(weatherData);

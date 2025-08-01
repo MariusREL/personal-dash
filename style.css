@@ -38,6 +38,8 @@ body{
   border-radius: 20px;
   background: url("./img/alessio-soggetti-GYr9A2CPMhY-unsplash.jpg")
     center/cover no-repeat;
+    background-color: rgba(136, 31, 31, 0.1);
+    background-blend-mode: darken;
   display: grid;
   grid-template-rows: 8% 1fr 20%;
 }
