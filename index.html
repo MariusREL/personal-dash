@@ -22,47 +22,73 @@
   </head>
   <body>
     <header class="hero-container">
-      <nav class="nav">
+      <nav class="nav" role="navigation" aria-label="Main navigation">
         <div class="nav-left">
-          <a href=""
-            ><button class="hamburger"><i class="fa-solid fa-bars"></i></button
-          ></a>
-          <div><a href="">Stats</a></div>
-          <div><a href="">All activites</a></div>
+          <button
+            class="hamburger"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          </button>
+          <div><a href="#stats" aria-label="View statistics">Stats</a></div>
+          <div>
+            <a href="#activities" aria-label="View all activities"
+              >All activities</a
+            >
+          </div>
         </div>
         <div class="logo">MyMomentum</div>
         <div>
-          <a href=""
-            ><img
+          <a href="#profile" aria-label="View user profile">
+            <img
               class="profile-picture"
               src="./img/ben-den-engelsen-YUu9UAcOKZ4-unsplash.jpg"
-              alt="User Profile picture"
+              alt="User profile picture"
           /></a>
-          <button class="get-started">
-            Get started <i class="fa-solid fa-arrow-right"></i>
+          <button class="get-started" aria-label="Get started with MyMomentum">
+            Get started
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </button>
         </div>
       </nav>
       <div class="header-text" id="header-text"></div>
-      <div class="last-trip" id="last-trip">
-        <div>image</div>
-        <div>comment about trip</div>
-        <div>details about trip</div>
-      </div>
+      <section
+        class="last-trip"
+        id="last-trip"
+        aria-label="Recent trip summary"
+      >
+        <figure>
+          <div>image</div>
+          <figcaption class="sr-only">Recent trip image</figcaption>
+        </figure>
+        <article>
+          <h3 class="sr-only">Trip Comment</h3>
+          <p>comment about trip</p>
+        </article>
+        <aside>
+          <h3 class="sr-only">Trip Details</h3>
+          <p>details about trip</p>
+        </aside>
+      </section>
     </header>
     <main>
       <div class="trip-logger">
         <h1>Log your trip</h1>
-        <section class="logger-cards">
-          <div class="bike">
+        <section
+          class="logger-cards"
+          role="group"
+          aria-label="Activity options"
+        >
+          <button class="bike" aria-label="Log a bike ride">
             <h3>Bike</h3>
-          </div>
-          <div class="run">
+          </button>
+          <button class="run" aria-label="Log a run">
             <h3>Run</h3>
-          </div>
-          <div class="hike">
+          </button>
+          <button class="hike" aria-label="Log a hike">
             <h3>Hike</h3>
-          </div>
+          </button>
         </section>
       </div>
       <div class="weather-section">

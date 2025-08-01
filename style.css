@@ -10,6 +10,18 @@
   --default-font-family: "Varela", sans-serif;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :link,
 a:visited {
   color: inherit;
@@ -53,6 +65,15 @@ nav > div {
   background-color: transparent;
   color: #4a5759;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.hamburger:focus,
+.hamburger:hover {
+  background-color: rgba(74, 87, 89, 0.1);
+  outline: 2px solid #4a5759;
+  outline-offset: 2px;
 }
 
 nav > div:nth-child(1) {
@@ -77,10 +98,18 @@ nav > div:nth-child(3) {
   background-color: rgb(115, 248, 115);
   border-radius: 10px;
   border: none;
-  font-size: 10px;
+  font-size: 12px; /* Increased from 10px for better accessibility */
   font-weight: 100;
   cursor: pointer;
   padding: 2px;
+}
+
+.get-started:focus,
+.get-started:hover {
+  background-color: rgb(95, 228, 95);
+  outline: 2px solid #2d5a2d;
+  outline-offset: 2px;
+  transform: translateY(-1px);
 }
 
 .header-text {
@@ -121,8 +150,8 @@ nav > div:nth-child(3) {
 }
 .logger-cards {
   max-width: 97%;
-  min-height: 20vh;
-  max-height: 25vh;
+  min-height: 30vh;
+  max-height: 40vh;
   margin: 0 auto;
   border-radius: 20px;
   display: grid;
@@ -160,6 +189,18 @@ nav > div:nth-child(3) {
   letter-spacing: 0.5px;
   font-family: var(--default-font-family);
   text-shadow: 1px 1px 1px black;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.bike:focus, .bike:hover,
+.run:focus, .run:hover,
+.hike:focus, .hike:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
 }
 
 
