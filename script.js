@@ -111,8 +111,19 @@ const currentTemp =
     ? Math.floor(parseFloat(futureForecasts[0].temperature))
     : Math.floor(temperatures[0]);
 
-h1Header.innerHTML =
-  `It's ${currentTemp} degrees right now, perfect conditions to go outside`.toLocaleUpperCase();
+function weatherChecker(arr) {
+  if (arr[0] === 0 || arr[0] === 1) {
+    return "Sunny";
+  } else if (arr[0] === 2 || arr[0] === 3 || arr[0] === 4) {
+    return "cloudy";
+  } else {
+    return "pretty shitty weather";
+  }
+}
+
+h1Header.innerHTML = `It's ${currentTemp} degrees and ${weatherChecker(
+  weatherCodes
+)} right now, perfect conditions to go outside`.toLocaleUpperCase();
 headerText.appendChild(h1Header);
 
 const date = document.querySelector(".date");
