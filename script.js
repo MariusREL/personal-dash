@@ -130,7 +130,7 @@ date.textContent = now.toDateString();
 const modal = document.querySelector("#modal");
 
 const activityButtons = document.querySelectorAll(
-  "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike"
+  "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike, .get-started"
 );
 const closeButton = document.querySelector(".close-modal");
 
