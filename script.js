@@ -138,10 +138,11 @@ function openModal() {
   if (modal.classList.contains("visible")) {
     return;
   }
-
-  modal.classList.remove("invisible");
-  modal.classList.add("visible");
-  document.body.style.overflow = "hidden";
+  setTimeout(() => {
+    modal.classList.remove("invisible");
+    modal.classList.add("visible");
+    document.body.style.overflow = "hidden";
+  }, 150);
 
   if (!document.getElementById("modal-backdrop")) {
     const backdrop = document.createElement("div");
