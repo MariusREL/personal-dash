@@ -19,8 +19,6 @@ async function getDailyWeatherData() {
 }
 const weatherData = await getDailyWeatherData();
 
-console.log(weatherData);
-
 // Destructuring weatherdata to make it easier to work with
 const {
   longitude,
@@ -53,7 +51,6 @@ const forecasts = time.map((timestamp, i) => ({
   isDay: Boolean(isDay[i]),
   icon: getWeatherIcon(weatherCodes[i]),
 }));
-console.log(forecasts);
 
 // Filter to get only the next 8 hours from now
 const now = new Date();
@@ -127,7 +124,86 @@ h1Header.innerHTML = `It's ${currentTemp} degrees and ${weatherChecker(
 headerText.appendChild(h1Header);
 
 const date = document.querySelector(".date");
-
 date.textContent = now.toDateString();
 
-console.log(weatherData);
+// Modal functionality
+const modal = document.querySelector("#modal");
+// Only select activity buttons OUTSIDE the modal (in main content)
+const activityButtons = document.querySelectorAll(
+  "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike"
+);
+const closeButton = document.querySelector(".close-modal");
+
+// Function to open modal
+function openModal() {
+  if (modal.classList.contains("visible")) {
+    return;
+  }
+
+  modal.classList.remove("invisible");
+  modal.classList.add("visible");
+  document.body.style.overflow = "hidden";
+
+  if (!document.getElementById("modal-backdrop")) {
+    const backdrop = document.createElement("div");
+    backdrop.className = "modal-backdrop";
+    backdrop.id = "modal-backdrop";
+    document.body.appendChild(backdrop);
+  }
+
+  const backgroundElements = [
+    document.querySelector(".hero-container"),
+    document.querySelector("main > .trip-logger"),
+    document.querySelector(".weather-section"),
+    document.querySelector("footer"),
+  ];
+
+  backgroundElements.forEach((element) => {
+    if (element) {
+      element.style.pointerEvents = "none";
+      element.classList.add("background-dimmed");
+    }
+  });
+}
+
+function closeModal() {
+  modal.classList.remove("visible");
+  modal.classList.add("invisible");
+  document.body.style.overflow = "auto"; // Restore scrolling
+
+  const backdrop = document.getElementById("modal-backdrop");
+  if (backdrop) {
+    backdrop.remove();
+  }
+
+  const backgroundElements = [
+    document.querySelector(".hero-container"),
+    document.querySelector("main > .trip-logger"),
+    document.querySelector(".weather-section"),
+    document.querySelector("footer"),
+  ];
+
+  backgroundElements.forEach((element) => {
+    if (element) {
+      element.style.pointerEvents = "auto";
+      element.classList.remove("background-dimmed");
+    }
+  });
+}
+
+activityButtons.forEach((button) => {
+  button.addEventListener("click", openModal);
+});
+
+closeButton.addEventListener("click", closeModal);
+document.addEventListener("click", (e) => {
+  if (e.target.id === "modal-backdrop") {
+    closeModal();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modal.classList.contains("visible")) {
+    closeModal();
+  }
+});

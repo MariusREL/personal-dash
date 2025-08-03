@@ -100,6 +100,34 @@
 
         <div class="weather-card-container" id="weather-card-container"></div>
       </div>
+      <div class="modal invisible" id="modal">
+        <button class="close-modal" aria-label="Close modal">&times;</button>
+        <div class="trip-logger">
+          <h1>Log your trip</h1>
+          <section
+            class="logger-cards"
+            role="group"
+            aria-label="Activity options"
+          >
+            <button class="bike" aria-label="Log a bike ride">
+              <h3>Bike</h3>
+            </button>
+            <button class="run" aria-label="Log a run">
+              <h3>Run</h3>
+            </button>
+            <button class="hike" aria-label="Log a hike">
+              <h3>Hike</h3>
+            </button>
+          </section>
+        </div>
+        <form class="input-container" id="input-container">
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+        </form>
+      </div>
     </main>
     <footer>placeholder</footer>
   </body>
