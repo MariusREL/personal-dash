@@ -370,7 +370,7 @@ body:has(.modal.visible) footer {
     }
   
   .hamburger {
-    margin-left: 2rem;
+    margin-left: 1rem;
   }
   .logo {
     justify-self: right;
