@@ -128,13 +128,12 @@ date.textContent = now.toDateString();
 
 // Modal functionality
 const modal = document.querySelector("#modal");
-// Only select activity buttons OUTSIDE the modal (in main content)
+
 const activityButtons = document.querySelectorAll(
   "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike"
 );
 const closeButton = document.querySelector(".close-modal");
 
-// Function to open modal
 function openModal() {
   if (modal.classList.contains("visible")) {
     return;

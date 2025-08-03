@@ -164,26 +164,23 @@ nav > div:nth-child(3) {
 }
 
 .bike{
-  width: 90%;
-  height: 80%;
   background: url("./img/patrick-hendry-1ow9zrlldJU-unsplash.jpg") center/cover no-repeat;
-  background-color: #4a5759;
-  border-radius: 8px;
+
+
 }
 .run {
-  width: 90%;
-  height: 80%;
   background: url("./img/josh-gordon-fzHmP6z8OQ4-unsplash.jpg") center/cover no-repeat;
-  border-radius: 8px;
+
 }
 .hike {
-  width: 90%;
-  height: 80%;
+
   background: url("./img/kalen-emsley-G1qxBDxM8vE-unsplash.jpg") center/cover no-repeat;
-  background-color: #4a5759;
-  border-radius: 8px;
+
 }
 .hike, .run, .bike{
+  border-radius: 8px;
+  width: 90%;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: start;
@@ -196,6 +193,17 @@ nav > div:nth-child(3) {
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
+}
+.modal .hike, .modal  .run, .modal  .bike{
+  height: 30%;
+  width: 100%;
+  color: black;
+}
+.modal .logger-cards{
+  max-width: 100%;
+  margin: 0;
+  align-items: start;
+  margin-top: 5%;
 }
 
 .bike:focus, .bike:hover,
@@ -293,18 +301,18 @@ nav > div:nth-child(3) {
   left: 50%;
   transform: translate(-50%, -50%);
   height: 80%;
-  width: 60%;
+  width: 80%;
   background-color: blanchedalmond;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  padding: 2rem;
+  z-index: 2;
+  padding: 2rem
 }
 
 .close-modal {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 8px;
+  right: 8px;
   background: none;
   border: none;
   font-size: 2rem;
@@ -337,7 +345,7 @@ nav > div:nth-child(3) {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7); 
-  z-index: 999;
+  z-index: 1;
   backdrop-filter: blur(2px); 
 }
 
