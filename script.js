@@ -1,6 +1,69 @@
 import { activities } from "./workouts.js";
 // import { logActivity } from "./logActivity.js";
 
+// Function to load activities from localStorage
+function loadActivitiesFromStorage() {
+  try {
+    const storedActivities = localStorage.getItem("userActivities");
+    if (storedActivities) {
+      const savedActivities = JSON.parse(storedActivities);
+      // Clear existing activities and add saved ones
+      activities.length = 0;
+      activities.push(...savedActivities);
+      console.log("Loaded activities from storage:", activities);
+    } else {
+      // First time user - save the default activities to localStorage
+      saveActivitiesToStorage();
+      console.log("First time user - initialized with default activities");
+    }
+  } catch (error) {
+    console.error("Error loading activities from localStorage:", error);
+    // Keep the default activities from workouts.js if localStorage fails
+  }
+}
+
+// Function to save activities to localStorage
+function saveActivitiesToStorage() {
+  try {
+    localStorage.setItem("userActivities", JSON.stringify(activities));
+    console.log("Activities saved to localStorage");
+  } catch (error) {
+    console.error("Error saving activities to localStorage:", error);
+  }
+}
+
+// Function to add a new activity and save to storage
+function addActivity(newActivity) {
+  activities.push(newActivity);
+  saveActivitiesToStorage();
+}
+
+// Function to get all activities
+function getActivities() {
+  return activities;
+}
+
+// Function to clear all activities (useful for testing or reset)
+function clearAllActivities() {
+  activities.length = 0;
+  saveActivitiesToStorage();
+  console.log("All activities cleared");
+}
+
+// Function to remove a specific activity by index
+function removeActivity(index) {
+  if (index >= 0 && index < activities.length) {
+    const removed = activities.splice(index, 1);
+    saveActivitiesToStorage();
+    console.log("Removed activity:", removed[0]);
+    return removed[0];
+  }
+  return null;
+}
+
+// Load activities when the app starts
+loadActivitiesFromStorage();
+
 const weeklyWeatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=60.393&longitude=5.3242&daily=weather_code&current=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_hours=12&past_hours=1";
 
@@ -432,7 +495,6 @@ function showSuccessConfirmation(activityType, duration, distance) {
         } logged!</strong>
         <span>${duration} • ${distance} km</span>
       </div>
-      <button class="confirmation-close" onclick="this.closest('.success-confirmation').remove()">×</button>
     </div>
   `;
 
@@ -470,7 +532,8 @@ inputForm.addEventListener("submit", function (e) {
       location: activityLocation.value,
     };
 
-    activities.push(newActivity);
+    // Add activity and save to localStorage
+    addActivity(newActivity);
 
     showSuccessConfirmation(
       selectedActivity,
@@ -479,6 +542,5 @@ inputForm.addEventListener("submit", function (e) {
     );
 
     closeModal();
-    console.log(activities);
   }
 });
