@@ -127,7 +127,6 @@ const date = document.querySelector(".date");
 date.textContent = now.toDateString();
 
 // Modal functionality
-const modal = document.querySelector("#modal");
 
 const activityButtons = document.querySelectorAll(
   "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike, .get-started"
@@ -169,7 +168,7 @@ function openModal() {
 function closeModal() {
   modal.classList.remove("visible");
   modal.classList.add("invisible");
-  document.body.style.overflow = "auto"; // Restore scrolling
+  document.body.style.overflow = "auto";
 
   const backdrop = document.getElementById("modal-backdrop");
   if (backdrop) {
@@ -192,7 +191,19 @@ function closeModal() {
 }
 
 activityButtons.forEach((button) => {
-  button.addEventListener("click", openModal);
+  button.addEventListener("click", function (e) {
+    openModal();
+    setTimeout(() => {
+      let selectedActivity = "";
+      if (e.target.classList.contains("run")) {
+        document.querySelector("#modal-run").focus();
+      } else if (e.target.classList.contains("bike")) {
+        document.querySelector("#modal-bike").focus();
+      } else if (e.target.classList.contains("hike")) {
+        document.querySelector("#modal-hike").focus();
+      }
+    }, 200);
+  });
 });
 
 closeButton.addEventListener("click", closeModal);
@@ -207,3 +218,6 @@ document.addEventListener("keydown", (e) => {
     closeModal();
   }
 });
+
+console.log(weatherCodes);
+// State management
