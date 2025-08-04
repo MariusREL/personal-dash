@@ -1,7 +1,8 @@
-export const workouts = [
+export const activities = [
   {
+    activityType: "bike",
     weather: "placeholder",
-    time: "placeholder",
+    duration: "placeholder",
     distance: "placeholder",
     comment: "placeholder",
     date: "placeholder",

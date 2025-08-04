@@ -1,10 +1,12 @@
-import { workouts } from "./workouts.js";
+import { activities } from "./workouts.js";
+// import { logActivity } from "./logActivity.js";
 
 const weeklyWeatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=60.393&longitude=5.3242&daily=weather_code&current=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_hours=12&past_hours=1";
 
 // Hourly WeatherAPI and display of daily forecast
 import { weatherCodeToIcon } from "./weathercodes.js";
+
 const weatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=2";
 
@@ -114,7 +116,7 @@ function weatherChecker(arr) {
   } else if (arr[0] === 2 || arr[0] === 3 || arr[0] === 4) {
     return "cloudy";
   } else {
-    return "pretty shitty weather";
+    return "pretty awful weather";
   }
 }
 
@@ -279,17 +281,14 @@ activityButtons.forEach((button) => {
 closeButton.addEventListener("click", closeModal);
 
 const cancelBtn = document.querySelector("#cancel-btn");
-const saveBtn = document.querySelector("#save-btn");
 
 cancelBtn.addEventListener("click", closeModal);
 
-document
-  .querySelector("#input-container")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    console.log("Form submitted for activity:", selectedActivity);
-  });
+// document
+//   .querySelector("#input-container")
+//   .addEventListener("submit", function (e) {
+//     e.preventDefault();
+//   });
 
 document.addEventListener("click", (e) => {
   if (e.target.id === "modal-backdrop") {
@@ -311,17 +310,21 @@ function updateFormForActivity(activityType) {
   formTitle.textContent = `Log Your ${capitalizedActivity}`;
 
   const distanceInput = document.querySelector("#activity-distance");
-  const durationInput = document.querySelector("#activity-duration");
+  const startTimeInput = document.querySelector("#activity-start-time");
+  const endTimeInput = document.querySelector("#activity-end-time");
 
   if (activityType === "bike") {
-    distanceInput.placeholder = "25.5 km";
-    durationInput.placeholder = "1hr 30min";
+    distanceInput.placeholder = "25";
+    startTimeInput.placeholder = "09:00";
+    endTimeInput.placeholder = "10:30";
   } else if (activityType === "run") {
-    distanceInput.placeholder = "5.2 km";
-    durationInput.placeholder = "45 min";
+    distanceInput.placeholder = "5.2";
+    startTimeInput.placeholder = "07:00";
+    endTimeInput.placeholder = "07:45";
   } else if (activityType === "hike") {
-    distanceInput.placeholder = "8.5 km";
-    durationInput.placeholder = "3 hours";
+    distanceInput.placeholder = "8.5";
+    startTimeInput.placeholder = "08:00";
+    endTimeInput.placeholder = "11:00";
   }
 
   if (!window.datePickerInstance) {
@@ -377,4 +380,105 @@ modalButtons.forEach(function (button) {
   });
 });
 
-console.log(weatherCodes);
+const inputForm = document.querySelector("#input-container");
+const activityStartTime = document.querySelector("#activity-start-time");
+const activityEndTime = document.querySelector("#activity-end-time");
+const activityDistance = document.querySelector("#activity-distance");
+const activityLocation = document.querySelector("#activity-location");
+const activityDate = document.querySelector("#activity-date");
+const activityComment = document.querySelector("#activity-comment");
+
+// Function to calculate duration between start and end time
+function calculateDuration(startTime, endTime) {
+  if (!startTime || !endTime) return "";
+
+  const [startHours, startMinutes] = startTime.split(":").map(Number);
+  const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+  // Convert to minutes for easier calculation
+  const startTotalMinutes = startHours * 60 + startMinutes;
+  let endTotalMinutes = endHours * 60 + endMinutes;
+
+  // Handle case where activity crosses midnight
+  if (endTotalMinutes < startTotalMinutes) {
+    endTotalMinutes += 24 * 60; // Add 24 hours worth of minutes
+  }
+
+  const durationMinutes = endTotalMinutes - startTotalMinutes;
+
+  // Convert back to hours and minutes
+  const hours = Math.floor(durationMinutes / 60);
+  const minutes = durationMinutes % 60;
+
+  // Format duration string
+  if (hours > 0 && minutes > 0) {
+    return `${hours}h ${minutes}m`;
+  } else if (hours > 0) {
+    return `${hours}h`;
+  } else {
+    return `${minutes}m`;
+  }
+}
+
+function showSuccessConfirmation(activityType, duration, distance) {
+  const confirmation = document.createElement("div");
+  confirmation.className = "success-confirmation";
+  confirmation.innerHTML = `
+    <div class="confirmation-content">
+      <div class="confirmation-icon">✅</div>
+      <div class="confirmation-text">
+        <strong>${
+          activityType.charAt(0).toUpperCase() + activityType.slice(1)
+        } logged!</strong>
+        <span>${duration} • ${distance} km</span>
+      </div>
+      <button class="confirmation-close" onclick="this.closest('.success-confirmation').remove()">×</button>
+    </div>
+  `;
+
+  document.body.appendChild(confirmation);
+
+  setTimeout(() => {
+    if (confirmation && confirmation.parentNode) {
+      confirmation.classList.add("confirmation-fade-out");
+      setTimeout(() => confirmation.remove(), 300);
+    }
+  }, 3000);
+}
+
+inputForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  if (selectedActivity !== "") {
+    const calculatedDuration = calculateDuration(
+      activityStartTime.value,
+      activityEndTime.value
+    );
+
+    if (!calculatedDuration) {
+      alert("Please enter valid start and end times");
+      return;
+    }
+
+    const newActivity = {
+      activityType: selectedActivity,
+      weather: "weather",
+      duration: calculatedDuration,
+      distance: activityDistance.value,
+      comment: activityComment.value,
+      date: activityDate.value,
+      location: activityLocation.value,
+    };
+
+    activities.push(newActivity);
+
+    showSuccessConfirmation(
+      selectedActivity,
+      calculatedDuration,
+      activityDistance.value
+    );
+
+    closeModal();
+    console.log(activities);
+  }
+});

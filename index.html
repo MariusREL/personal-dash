@@ -36,8 +36,6 @@
           >
             <i class="fa-solid fa-bars" aria-hidden="true"></i>
           </button>
-          <div><a href="#stats" aria-label="View statistics">Stats</a></div>
-          <div>
             <a href="#activities" aria-label="View all activities"
               >All activities</a
             >
@@ -129,25 +127,38 @@
           
           <div class="form-grid">
             <div class="form-group">
-              <label for="activity-duration">Duration</label>
+              <label for="activity-start-time">Start Time</label>
               <input 
-                type="text" 
-                id="activity-duration" 
-                name="duration" 
-                placeholder="45 min"
-                aria-describedby="duration-help"
+                type="time" 
+                id="activity-start-time" 
+                name="startTime" 
+                aria-describedby="start-time-help"
+                required
               />
-              <small id="duration-help" class="help-text">How long?</small>
+              <small id="start-time-help" class="help-text">When did you start?</small>
             </div>
 
             <div class="form-group">
-              <label for="activity-distance">Distance</label>
+              <label for="activity-end-time">End Time</label>
               <input 
-                type="text" 
+                type="time" 
+                id="activity-end-time" 
+                name="endTime" 
+                aria-describedby="end-time-help"
+                required
+              />
+              <small id="end-time-help" class="help-text">When did you finish?</small>
+            </div>
+
+            <div class="form-group">
+              <label for="activity-distance">Distance in KM</label>
+              <input 
+                type="number" 
                 id="activity-distance" 
                 name="distance" 
-                placeholder="5.2 km"
+                placeholder="5"
                 aria-describedby="distance-help"
+                required
               />
               <small id="distance-help" class="help-text">How far?</small>
             </div>
@@ -158,8 +169,9 @@
                 type="text" 
                 id="activity-location" 
                 name="location" 
-                placeholder="Central Park, Bergen"
+                placeholder="Byparken, Bergen"
                 aria-describedby="location-help"
+                required
               />
               <small id="location-help" class="help-text">Where did you go?</small>
             </div>
@@ -173,26 +185,27 @@
                 placeholder="Select date"
                 readonly
                 aria-describedby="date-help"
+                
               />
-              <small id="date-help" class="help-text">When did you do this?</small>
+              <small id="date-help" class="help-text">When did you go?</small>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="activity-notes">Notes</label>
+            <label for="activity-comment">Notes</label>
             <textarea 
-              id="activity-notes" 
-              name="notes" 
-              placeholder="How did it feel? Any highlights?"
-              rows="2"
+              id="activity-comment" 
+              name="comment" 
+              placeholder="Comment"
+              rows="5"
               aria-describedby="notes-help"
             ></textarea>
-            <small id="notes-help" class="help-text">Optional: Share your experience</small>
+          
           </div>
 
           <div class="form-actions">
             <button type="submit" class="btn-primary" id="save-btn">Save Activity</button>
-            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel (don't cancel you weakling)</button>
             
           </div>
         </form>
