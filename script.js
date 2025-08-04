@@ -376,3 +376,5 @@ modalButtons.forEach(function (button) {
     }
   });
 });
+
+console.log(weatherCodes);
