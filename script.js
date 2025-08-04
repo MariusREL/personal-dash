@@ -135,6 +135,10 @@ const activityButtons = document.querySelectorAll(
 );
 const closeButton = document.querySelector(".close-modal");
 
+const modalButtons = document.querySelectorAll(
+  "#modal-hike, #modal-run, #modal-bike"
+);
+
 function openModal() {
   if (modal.classList.contains("visible")) {
     return;
@@ -145,7 +149,7 @@ function openModal() {
     document.body.style.overflow = "hidden";
 
     setupMondayWeekStart();
-  }, 150);
+  }, 5);
 
   if (!document.getElementById("modal-backdrop")) {
     const backdrop = document.createElement("div");
@@ -170,9 +174,24 @@ function openModal() {
 }
 
 function closeModal() {
-  modal.classList.remove("visible");
   modal.classList.add("invisible");
+  modal.classList.remove("visible");
   document.body.style.overflow = "auto";
+
+  if (window.datePickerInstance) {
+    window.datePickerInstance.destroy();
+    window.datePickerInstance = null;
+  }
+
+  const flatpickrElements = document.querySelectorAll(
+    ".flatpickr-calendar, .flatpickr-overlay"
+  );
+  flatpickrElements.forEach((element) => {
+    if (element && element.parentNode) {
+      element.style.display = "none";
+      element.parentNode.removeChild(element);
+    }
+  });
 
   const backdrop = document.getElementById("modal-backdrop");
   if (backdrop) {
@@ -192,6 +211,34 @@ function closeModal() {
       element.classList.remove("background-dimmed");
     }
   });
+
+  const form = document.querySelector("#input-container");
+  if (form) {
+    form.reset();
+    form.style.display = "none";
+    setTimeout(() => {
+      form.style.display = "";
+    }, 50);
+  }
+
+  selectedActivity = "";
+
+  if (modalButtons) {
+    modalButtons.forEach((btn) => btn.classList.remove("active"));
+  }
+
+  const formTitle = document.querySelector(".form-title");
+  if (formTitle) {
+    formTitle.textContent = "Log Your Activity";
+  }
+
+  const formActions = document.querySelector(".form-actions");
+  if (formActions) {
+    formActions.style.display = "none";
+    setTimeout(() => {
+      formActions.style.display = "";
+    }, 50);
+  }
 }
 
 activityButtons.forEach((button) => {
@@ -199,7 +246,6 @@ activityButtons.forEach((button) => {
     openModal();
 
     setTimeout(() => {
-      // Determine which activity was clicked
       let activityType = "";
       if (e.target.classList.contains("run") || e.target.closest(".run")) {
         activityType = "run";
@@ -216,10 +262,8 @@ activityButtons.forEach((button) => {
       }
 
       if (activityType) {
-        // Remove active class from all modal buttons
         modalButtons.forEach((btn) => btn.classList.remove("active"));
 
-        // Add active class to corresponding modal button
         const correspondingModalButton = document.querySelector(
           `#modal-${activityType}`
         );
@@ -234,18 +278,16 @@ activityButtons.forEach((button) => {
 
 closeButton.addEventListener("click", closeModal);
 
-// Add event listeners for form buttons
 const cancelBtn = document.querySelector("#cancel-btn");
 const saveBtn = document.querySelector("#save-btn");
 
 cancelBtn.addEventListener("click", closeModal);
 
-// Form submission (you can add functionality later)
 document
   .querySelector("#input-container")
   .addEventListener("submit", function (e) {
     e.preventDefault();
-    // Form functionality to be added later
+
     console.log("Form submitted for activity:", selectedActivity);
   });
 
@@ -260,11 +302,7 @@ document.addEventListener("keydown", (e) => {
     closeModal();
   }
 });
-const modalButtons = document.querySelectorAll(
-  "#modal-hike, #modal-run, #modal-bike"
-);
 
-// Function to update form based on selected activity
 function updateFormForActivity(activityType) {
   selectedActivity = activityType;
   const formTitle = document.querySelector(".form-title");
@@ -276,27 +314,33 @@ function updateFormForActivity(activityType) {
   const durationInput = document.querySelector("#activity-duration");
 
   if (activityType === "bike") {
-    distanceInput.placeholder = "e.g., 25.5 km";
-    durationInput.placeholder = "e.g., 1hr 30min";
+    distanceInput.placeholder = "25.5 km";
+    durationInput.placeholder = "1hr 30min";
   } else if (activityType === "run") {
-    distanceInput.placeholder = "e.g., 5.2 km";
-    durationInput.placeholder = "e.g., 45 min";
+    distanceInput.placeholder = "5.2 km";
+    durationInput.placeholder = "45 min";
   } else if (activityType === "hike") {
-    distanceInput.placeholder = "e.g., 8.5 km";
-    durationInput.placeholder = "e.g., 3 hours";
+    distanceInput.placeholder = "8.5 km";
+    durationInput.placeholder = "3 hours";
   }
 
-  initializeDatePicker();
+  if (!window.datePickerInstance) {
+    initializeDatePicker();
+  }
 }
 
 function initializeDatePicker() {
   const dateInput = document.querySelector("#activity-date");
   if (!dateInput) return;
 
-  // Initialize Flatpickr with Monday as first day of week
-  flatpickr(dateInput, {
+  if (window.datePickerInstance) {
+    window.datePickerInstance.destroy();
+    window.datePickerInstance = null;
+  }
+
+  window.datePickerInstance = flatpickr(dateInput, {
     locale: {
-      firstDayOfWeek: 1, // Monday = 1, Sunday = 0
+      firstDayOfWeek: 1,
     },
     dateFormat: "d-m-Y",
     defaultDate: "today",
@@ -313,15 +357,14 @@ function initializeDatePicker() {
 }
 
 function setupMondayWeekStart() {
-  initializeDatePicker();
+  if (!window.datePickerInstance) {
+    initializeDatePicker();
+  }
 }
 
 modalButtons.forEach(function (button) {
   button.addEventListener("click", function (e) {
-    // Remove active class from all buttons
     modalButtons.forEach((btn) => btn.classList.remove("active"));
-
-    // Add active class to clicked button
     e.target.classList.add("active");
 
     if (e.target.classList.contains("run")) {

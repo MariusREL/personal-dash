@@ -353,12 +353,25 @@ nav > div:nth-child(3) {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.visible{
-  visibility: visible;
+.modal.invisible {
+  visibility: hidden;
+  transition: none !important;
 }
 
-.invisible{
-  visibility: hidden;
+.modal.invisible * {
+  transition: none !important;
+  animation: none !important;
+}
+
+.modal.invisible .form-actions,
+.modal.invisible .input-container,
+.modal.invisible .btn-primary,
+.modal.invisible .btn-secondary {
+  display: none !important;
+}
+
+.visible{
+  visibility: visible;
 }
 
 
