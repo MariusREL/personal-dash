@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -120,11 +120,73 @@
           </section>
         </div>
         <form class="input-container" id="input-container">
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
+          <h2 class="form-title">Log Your Activity</h2>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="activity-duration">Duration</label>
+              <input 
+                type="text" 
+                id="activity-duration" 
+                name="duration" 
+                placeholder="e.g., 45 min"
+                aria-describedby="duration-help"
+              />
+              <small id="duration-help" class="help-text">How long?</small>
+            </div>
+
+            <div class="form-group">
+              <label for="activity-distance">Distance</label>
+              <input 
+                type="text" 
+                id="activity-distance" 
+                name="distance" 
+                placeholder="e.g., 5.2 km"
+                aria-describedby="distance-help"
+              />
+              <small id="distance-help" class="help-text">How far?</small>
+            </div>
+
+            <div class="form-group">
+              <label for="activity-location">Location</label>
+              <input 
+                type="text" 
+                id="activity-location" 
+                name="location" 
+                placeholder="e.g., Central Park, Bergen"
+                aria-describedby="location-help"
+              />
+              <small id="location-help" class="help-text">Where did you go?</small>
+            </div>
+
+            <div class="form-group">
+              <label for="activity-date">Date</label>
+              <input 
+                type="date" 
+                id="activity-date" 
+                name="date" 
+                aria-describedby="date-help"
+              />
+              <small id="date-help" class="help-text">When did you do this?</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="activity-notes">Notes</label>
+            <textarea 
+              id="activity-notes" 
+              name="notes" 
+              placeholder="How did it feel? Any highlights?"
+              rows="2"
+              aria-describedby="notes-help"
+            ></textarea>
+            <small id="notes-help" class="help-text">Optional: Share your experience</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn-primary" id="save-btn">Save Activity</button>
+          </div>
         </form>
       </div>
     </main>

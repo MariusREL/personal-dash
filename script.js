@@ -127,6 +127,8 @@ const date = document.querySelector(".date");
 date.textContent = now.toDateString();
 
 // Modal functionality
+let selectedActivity = "";
+const modal = document.querySelector("#modal");
 
 const activityButtons = document.querySelectorAll(
   "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike, .get-started"
@@ -193,20 +195,58 @@ function closeModal() {
 activityButtons.forEach((button) => {
   button.addEventListener("click", function (e) {
     openModal();
+
     setTimeout(() => {
-      let selectedActivity = "";
-      if (e.target.classList.contains("run")) {
-        document.querySelector("#modal-run").focus();
-      } else if (e.target.classList.contains("bike")) {
-        document.querySelector("#modal-bike").focus();
-      } else if (e.target.classList.contains("hike")) {
-        document.querySelector("#modal-hike").focus();
+      // Determine which activity was clicked
+      let activityType = "";
+      if (e.target.classList.contains("run") || e.target.closest(".run")) {
+        activityType = "run";
+      } else if (
+        e.target.classList.contains("bike") ||
+        e.target.closest(".bike")
+      ) {
+        activityType = "bike";
+      } else if (
+        e.target.classList.contains("hike") ||
+        e.target.closest(".hike")
+      ) {
+        activityType = "hike";
+      }
+
+      if (activityType) {
+        // Remove active class from all modal buttons
+        modalButtons.forEach((btn) => btn.classList.remove("active"));
+
+        // Add active class to corresponding modal button
+        const correspondingModalButton = document.querySelector(
+          `#modal-${activityType}`
+        );
+        if (correspondingModalButton) {
+          correspondingModalButton.classList.add("active");
+          updateFormForActivity(activityType);
+        }
       }
     }, 200);
   });
 });
 
 closeButton.addEventListener("click", closeModal);
+
+// Add event listeners for form buttons
+const cancelBtn = document.querySelector("#cancel-btn");
+const saveBtn = document.querySelector("#save-btn");
+
+cancelBtn.addEventListener("click", closeModal);
+
+// Form submission (you can add functionality later)
+document
+  .querySelector("#input-container")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    // Form functionality to be added later
+    console.log("Form submitted for activity:", selectedActivity);
+  });
+
 document.addEventListener("click", (e) => {
   if (e.target.id === "modal-backdrop") {
     closeModal();
@@ -218,6 +258,53 @@ document.addEventListener("keydown", (e) => {
     closeModal();
   }
 });
+const modalButtons = document.querySelectorAll(
+  "#modal-hike, #modal-run, #modal-bike"
+);
 
-console.log(weatherCodes);
-// State management
+// Function to update form based on selected activity
+function updateFormForActivity(activityType) {
+  selectedActivity = activityType;
+  const formTitle = document.querySelector(".form-title");
+  const capitalizedActivity =
+    activityType.charAt(0).toUpperCase() + activityType.slice(1);
+  formTitle.textContent = `Log Your ${capitalizedActivity}`;
+
+  // Update placeholder text based on activity
+  const distanceInput = document.querySelector("#activity-distance");
+  const durationInput = document.querySelector("#activity-duration");
+
+  if (activityType === "bike") {
+    distanceInput.placeholder = "e.g., 25.5 km";
+    durationInput.placeholder = "e.g., 1hr 30min";
+  } else if (activityType === "run") {
+    distanceInput.placeholder = "e.g., 5.2 km";
+    durationInput.placeholder = "e.g., 45 min";
+  } else if (activityType === "hike") {
+    distanceInput.placeholder = "e.g., 8.5 km";
+    durationInput.placeholder = "e.g., 3 hours";
+  }
+
+  // Set today's date as default
+  const dateInput = document.querySelector("#activity-date");
+  const today = new Date().toISOString().split("T")[0];
+  dateInput.value = today;
+}
+
+modalButtons.forEach(function (button) {
+  button.addEventListener("click", function (e) {
+    // Remove active class from all buttons
+    modalButtons.forEach((btn) => btn.classList.remove("active"));
+
+    // Add active class to clicked button
+    e.target.classList.add("active");
+
+    if (e.target.classList.contains("run")) {
+      updateFormForActivity("run");
+    } else if (e.target.classList.contains("bike")) {
+      updateFormForActivity("bike");
+    } else if (e.target.classList.contains("hike")) {
+      updateFormForActivity("hike");
+    }
+  });
+});
