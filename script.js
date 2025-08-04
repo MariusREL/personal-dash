@@ -143,6 +143,8 @@ function openModal() {
     modal.classList.remove("invisible");
     modal.classList.add("visible");
     document.body.style.overflow = "hidden";
+
+    setupMondayWeekStart();
   }, 150);
 
   if (!document.getElementById("modal-backdrop")) {
@@ -270,7 +272,6 @@ function updateFormForActivity(activityType) {
     activityType.charAt(0).toUpperCase() + activityType.slice(1);
   formTitle.textContent = `Log Your ${capitalizedActivity}`;
 
-  // Update placeholder text based on activity
   const distanceInput = document.querySelector("#activity-distance");
   const durationInput = document.querySelector("#activity-duration");
 
@@ -285,10 +286,34 @@ function updateFormForActivity(activityType) {
     durationInput.placeholder = "e.g., 3 hours";
   }
 
-  // Set today's date as default
+  initializeDatePicker();
+}
+
+function initializeDatePicker() {
   const dateInput = document.querySelector("#activity-date");
-  const today = new Date().toISOString().split("T")[0];
-  dateInput.value = today;
+  if (!dateInput) return;
+
+  // Initialize Flatpickr with Monday as first day of week
+  flatpickr(dateInput, {
+    locale: {
+      firstDayOfWeek: 1, // Monday = 1, Sunday = 0
+    },
+    dateFormat: "d-m-Y",
+    defaultDate: "today",
+    allowInput: false,
+    clickOpens: true,
+    theme: "light",
+
+    onReady: function (selectedDates, dateStr, instance) {
+      const calendar = instance.calendarContainer;
+      calendar.style.fontFamily = "var(--default-font-family)";
+      calendar.style.fontSize = "0.875rem";
+    },
+  });
+}
+
+function setupMondayWeekStart() {
+  initializeDatePicker();
 }
 
 modalButtons.forEach(function (button) {

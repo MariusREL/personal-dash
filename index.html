@@ -17,6 +17,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css"
       referrerpolicy="no-referrer"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <title>My Momentum</title>
   </head>
@@ -162,9 +167,11 @@
             <div class="form-group">
               <label for="activity-date">Date</label>
               <input 
-                type="date" 
+                type="text" 
                 id="activity-date" 
                 name="date" 
+                placeholder="Select date"
+                readonly
                 aria-describedby="date-help"
               />
               <small id="date-help" class="help-text">When did you do this?</small>

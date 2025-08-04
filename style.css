@@ -561,11 +561,8 @@ body:has(.modal.visible) footer {
     width: 100%;
     min-width: auto;
   }
-}
 
 
-
-@media (max-width: 768px) {
   .hero-container .nav {
     grid-template-columns: 10% 1fr 1fr;
   }
