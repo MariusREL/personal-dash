@@ -2,19 +2,14 @@ export const activities = [
   {
     activityType: "bike",
     weather: "placeholder",
+    weatherCode: "placeholder",
+    temperature: "placeholder",
     duration: "placeholder",
     distance: "placeholder",
     comment: "placeholder",
     date: "placeholder",
   },
-  {
-    activityType: "bike",
-    weather: "placeholder",
-    duration: "placeholder",
-    distance: "placeholder",
-    comment: "placeholder",
-    date: "placeholder",
-  },
+
   {
     activityType: "bike",
     weather: "placeholder",
