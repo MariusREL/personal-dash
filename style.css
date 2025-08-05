@@ -133,13 +133,6 @@ nav > div:nth-child(3) {
   font-family: var(--default-font-family);
 }
 
-.last-trip {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
-  align-items: center;
-  gap: 10px;
-}
 
 /* Log your trip buttons/graphic */
 
