@@ -216,7 +216,10 @@ function closeModal() {
   modal.classList.remove("visible");
   document.body.style.overflow = "auto";
 
-  if (window.datePickerInstance) {
+  if (
+    window.datePickerInstance &&
+    typeof window.datePickerInstance.destroy === "function"
+  ) {
     window.datePickerInstance.destroy();
     window.datePickerInstance = null;
   }
@@ -364,7 +367,10 @@ function initializeDatePicker() {
   const dateInput = document.querySelector("#activity-date");
   if (!dateInput) return;
 
-  if (window.datePickerInstance) {
+  if (
+    window.datePickerInstance &&
+    typeof window.datePickerInstance.destroy === "function"
+  ) {
     window.datePickerInstance.destroy();
     window.datePickerInstance = null;
   }
@@ -380,9 +386,11 @@ function initializeDatePicker() {
     theme: "light",
 
     onReady: function (selectedDates, dateStr, instance) {
-      const calendar = instance.calendarContainer;
-      calendar.style.fontFamily = "var(--default-font-family)";
-      calendar.style.fontSize = "0.875rem";
+      if (instance && instance.calendarContainer) {
+        const calendar = instance.calendarContainer;
+        calendar.style.fontFamily = "var(--default-font-family)";
+        calendar.style.fontSize = "0.875rem";
+      }
     },
   });
 }

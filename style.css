@@ -196,9 +196,7 @@ nav > div:nth-child(3) {
 }
 .modal .logger-cards {
   max-width: 100%;
-  margin: 0;
-  align-items: start;
-  margin-top: 0;
+  align-items: center;
   min-height: 45px;
   max-height: 120px;
 }
@@ -207,9 +205,7 @@ nav > div:nth-child(3) {
   flex-shrink: 0;
 }
 
-.modal .trip-logger > h1 {
-  margin-top: 0;
-}
+
 
 .bike:focus,
 .bike:hover,
@@ -377,12 +373,13 @@ nav > div:nth-child(3) {
   backdrop-filter: blur(2px);
 }
 
-body:has(.modal.visible) .hero-container,
-body:has(.modal.visible) .trip-logger:not(.modal .trip-logger),
-body:has(.modal.visible) .weather-section,
-body:has(.modal.visible) footer {
+.modal-open .hero-container,
+.modal-open .trip-logger:not(.modal .trip-logger),
+.modal-open .weather-section,
+.modal-open footer {
   opacity: 0.3;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 /* Form Styling */
@@ -538,9 +535,22 @@ body:has(.modal.visible) footer {
 @media (max-width: 768px) {
   .input-container {
     padding: 1rem;
-    margin-top: 0.5rem;
   }
-
+    .modal .hike,
+    .modal .run,
+    .modal .bike {
+      height: 40px;
+      min-height: 40px;
+      width: 100%;
+      color: black;
+    }
+  .modal {
+    width: 100%;
+    padding: 2rem 0.5rem 0 0.5rem;
+  }
+  .logger-cards {
+    gap: 5px;
+  }
   .form-title {
     font-size: 1.125rem;
     margin-bottom: 0.75rem;
