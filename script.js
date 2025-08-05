@@ -10,11 +10,9 @@ function loadActivitiesFromStorage() {
       // Clear existing activities and add saved ones
       activities.length = 0;
       activities.push(...savedActivities);
-      console.log("Loaded activities from storage:", activities);
     } else {
       // First time user - save the default activities to localStorage
       saveActivitiesToStorage();
-      console.log("First time user - initialized with default activities");
     }
   } catch (error) {
     console.error("Error loading activities from localStorage:", error);
@@ -26,7 +24,6 @@ function loadActivitiesFromStorage() {
 function saveActivitiesToStorage() {
   try {
     localStorage.setItem("userActivities", JSON.stringify(activities));
-    console.log("Activities saved to localStorage");
   } catch (error) {
     console.error("Error saving activities to localStorage:", error);
   }
@@ -38,7 +35,7 @@ function addActivity(newActivity) {
   saveActivitiesToStorage();
 }
 
-// Function to get all activities
+/*// Function to get all activities
 function getActivities() {
   return activities;
 }
@@ -59,7 +56,7 @@ function removeActivity(index) {
     return removed[0];
   }
   return null;
-}
+} */
 
 // Load activities when the app starts
 loadActivitiesFromStorage();
@@ -347,12 +344,6 @@ const cancelBtn = document.querySelector("#cancel-btn");
 
 cancelBtn.addEventListener("click", closeModal);
 
-// document
-//   .querySelector("#input-container")
-//   .addEventListener("submit", function (e) {
-//     e.preventDefault();
-//   });
-
 document.addEventListener("click", (e) => {
   if (e.target.id === "modal-backdrop") {
     closeModal();
@@ -524,7 +515,7 @@ inputForm.addEventListener("submit", function (e) {
 
     const newActivity = {
       activityType: selectedActivity,
-      weather: "weather",
+      weather: futureForecasts[0].icon,
       duration: calculatedDuration,
       distance: activityDistance.value,
       comment: activityComment.value,

@@ -576,7 +576,9 @@ body:has(.modal.visible) footer {
     margin-bottom: 20%;
     max-width: 65%;
   }
-
+  .all-activities {
+    display: none;
+  }
   .hamburger {
     margin-left: 1rem;
   }
