@@ -546,10 +546,12 @@ nav > div:nth-child(3) {
     }
   .modal {
     width: 100%;
+    height: 90vh;
     padding: 2rem 0.5rem 0 0.5rem;
   }
   .logger-cards {
     gap: 5px;
+    width: 90%;
   }
   .form-title {
     font-size: 1.125rem;
