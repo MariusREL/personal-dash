@@ -35,30 +35,6 @@ function addActivity(newActivity) {
   saveActivitiesToStorage();
 }
 
-/*// Function to get all activities
-function getActivities() {
-  return activities;
-}
-
-// Function to clear all activities (useful for testing or reset)
-function clearAllActivities() {
-  activities.length = 0;
-  saveActivitiesToStorage();
-  console.log("All activities cleared");
-}
-
-// Function to remove a specific activity by index
-function removeActivity(index) {
-  if (index >= 0 && index < activities.length) {
-    const removed = activities.splice(index, 1);
-    saveActivitiesToStorage();
-    console.log("Removed activity:", removed[0]);
-    return removed[0];
-  }
-  return null;
-} */
-
-// Load activities when the app starts
 loadActivitiesFromStorage();
 
 const weeklyWeatherUrl =
@@ -68,7 +44,7 @@ const weeklyWeatherUrl =
 import { weatherCodeToIcon } from "./weathercodes.js";
 
 const weatherUrl =
-  "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=2";
+  "https://api.open-meteo.com/v1/forecast?latitude=60.39&longitude=5.32&hourly=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_days=7&past_days=7";
 
 async function getDailyWeatherData() {
   let response = await fetch(weatherUrl);
@@ -283,8 +259,6 @@ function closeModal() {
     }, 50);
   }
 
-  selectedActivity = "";
-
   if (modalButtons) {
     modalButtons.forEach((btn) => btn.classList.remove("active"));
   }
@@ -498,6 +472,47 @@ function showSuccessConfirmation(activityType, duration, distance) {
     }
   }, 3000);
 }
+// get weather depending on which date the user picks and save it into the activities
+
+function getWeatherForDate(selectedDate, selectedTime) {
+  // Convert d-m-Y format to YYYY-MM-DD format for proper parsing
+  const dateParts = selectedDate.split("-");
+  const formattedDate = `${dateParts[2]}-${dateParts[1].padStart(
+    2,
+    "0"
+  )}-${dateParts[0].padStart(2, "0")}`;
+  const targetDateTime = new Date(`${formattedDate}T${selectedTime}:00`);
+
+  const findMatchingForecast = forecasts.find((forecast) => {
+    const forecastDate = forecast.time;
+    const isSameDay =
+      forecastDate.toDateString() === targetDateTime.toDateString();
+    const hourDiff = Math.abs(
+      forecastDate.getHours() - targetDateTime.getHours()
+    );
+
+    return isSameDay && hourDiff <= 1;
+  });
+
+  if (findMatchingForecast) {
+    return {
+      weatherCode: findMatchingForecast.weatherCode,
+      icon: findMatchingForecast.icon,
+      temperature: findMatchingForecast.temperature,
+      description: weatherChecker([findMatchingForecast.weatherCode]),
+    };
+  }
+
+  // Fallback to current weather if no match found
+  const fallbackWeatherCode =
+    futureForecasts[0]?.weatherCode || weatherCodes[0];
+  return {
+    weatherCode: fallbackWeatherCode,
+    icon: futureForecasts[0]?.icon || getWeatherIcon(fallbackWeatherCode),
+    temperature: futureForecasts[0]?.temperature || temperatures[0] + "°C",
+    description: weatherChecker([fallbackWeatherCode]),
+  };
+}
 
 inputForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -512,10 +527,16 @@ inputForm.addEventListener("submit", function (e) {
       alert("Please enter valid start and end times");
       return;
     }
+    const weatherForDate = getWeatherForDate(
+      activityDate.value,
+      activityStartTime.value
+    );
 
     const newActivity = {
       activityType: selectedActivity,
-      weather: futureForecasts[0].icon,
+      weather: weatherForDate.icon,
+      weatherCode: weatherForDate.weatherCode,
+      temperature: weatherForDate.temperature,
       duration: calculatedDuration,
       distance: activityDistance.value,
       comment: activityComment.value,
@@ -523,7 +544,6 @@ inputForm.addEventListener("submit", function (e) {
       location: activityLocation.value,
     };
 
-    // Add activity and save to localStorage
     addActivity(newActivity);
 
     showSuccessConfirmation(
