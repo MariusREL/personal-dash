@@ -1,7 +1,15 @@
-import { weatherCodeToIcon } from "../weathercodes";
-import { activities } from "../workouts";
+import { weatherCodeToIcon } from "../weathercodes.js";
+import { activities } from "../workouts.js";
 
-const body = document.querySelector("body");
-console.log(body);
+const activityCardContainer = document.querySelector(
+  "#activity-card-container"
+);
 
-const createHtmlTemplate = function () {};
+const createHtmlTemplate = function () {
+  activities.forEach((activity) => {
+    activityCardContainer.innerHTML = `
+        <div> 
+    `;
+  });
+};
+createHtmlTemplate();
