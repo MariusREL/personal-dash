@@ -1,5 +1,4 @@
 import { activities } from "./workouts.js";
-// import { logActivity } from "./logActivity.js";
 
 // Function to load activities from localStorage
 function loadActivitiesFromStorage() {

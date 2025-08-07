@@ -10,6 +10,7 @@
 
 :root {
     --default-font-family: "Varela", sans-serif;
+    text-align: center;
 }
 .sr-only {
     position: absolute;
@@ -81,3 +82,42 @@ nav>div:nth-child(3) {
     border-radius: 50%;
 }
 
+
+
+img {
+    width: 25px;
+    height: 25px;
+}
+.bottom-container {
+    padding: 3%;
+}
+.activity-card-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
+.info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 200px;
+}
+.info > * {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+.locationComment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
