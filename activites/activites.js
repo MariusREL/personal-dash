@@ -8,7 +8,7 @@ const activityCardContainer = document.querySelector(
 const createHtmlTemplate = function () {
   activities.forEach((activity) => {
     activityCardContainer.innerHTML = `
-        <div> 
+        <div></div>
     `;
   });
 };
