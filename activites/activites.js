@@ -1,6 +1,5 @@
 import {
   loadActivitiesFromStorage,
-  saveActivitiesToStorage,
   getWeatherIcon,
   weatherChecker,
   deleteActivity,
@@ -10,11 +9,7 @@ import { weatherCodeToIcon } from "../weathercodes.js";
 
 import { activities as defaultActivities } from "../workouts.js";
 
-let activities = loadActivitiesFromStorage();
-if (!activities) {
-  activities = defaultActivities;
-  saveActivitiesToStorage(activities);
-}
+let activities = loadActivitiesFromStorage() || defaultActivities;
 
 const activityFilter = document.querySelector("#activityFilter");
 const weatherFilter = document.querySelector("#weatherFilter");
@@ -130,7 +125,7 @@ const createHtmlTemplate = function (activitiesToShow = null) {
     const weatherIcon =
       activity.weather ||
       getWeatherIcon(activity.weatherCode) ||
-      "../icons/clear-day.svg";
+      "./icons/clear-day.svg";
     const weatherDesc =
       activity.weatherDescription ||
       (activity.weatherCode
@@ -167,7 +162,7 @@ const createHtmlTemplate = function (activitiesToShow = null) {
             </div>
           </div>
           <div class="distance">
-            <img src="../img/icons8-pulse-30.png" alt="A pulse sound wave" />
+            <img src="./img/icons8-pulse-30.png" alt="A pulse sound wave" />
             <div class="infotext">
               <h2>${activity.distance} km</h2>
               <p>distance</p>
@@ -182,10 +177,8 @@ const createHtmlTemplate = function (activitiesToShow = null) {
           </div>
         </section>
         <section class="locationComment">
-          <p><i class="fa-solid fa-map-location-dot"></i> ${
-            activity.location
-          }</p>
-          <p><i class="fa-solid fa-comment"></i> ${activity.comment}</p>
+          <p>${activity.location}</p>
+          <p>${activity.comment}</p>
         </section>
       </div>
     `;
@@ -208,7 +201,10 @@ const addButtonEventListeners = () => {
         const success = deleteActivity(activityId);
         if (success) {
           // Update activities array from storage
-          activities = loadActivitiesFromStorage() || [];
+          activities.length = 0;
+          activities.push(
+            ...(loadActivitiesFromStorage() || defaultActivities)
+          );
           const filteredActivities = filterAndSortActivities();
           createHtmlTemplate(filteredActivities);
         }
@@ -226,7 +222,8 @@ const addButtonEventListeners = () => {
       const success = toggleFavorite(activityId);
       if (success !== false) {
         // Update activities array from storage
-        activities = loadActivitiesFromStorage() || [];
+        activities.length = 0;
+        activities.push(...(loadActivitiesFromStorage() || defaultActivities));
         const filteredActivities = filterAndSortActivities();
         createHtmlTemplate(filteredActivities);
       }
