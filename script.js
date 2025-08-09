@@ -1,28 +1,42 @@
 import { activities } from "./workouts.js";
 
+// Ensure each activity has a stable numeric id
+function ensureIds(list) {
+  let maxId = list.reduce(
+    (m, a) => (typeof a.id === "number" ? Math.max(m, a.id) : m),
+    0
+  );
+  list.forEach((a) => {
+    if (typeof a.id !== "number") {
+      maxId += 1;
+      a.id = maxId;
+    }
+  });
+  return list;
+}
+
 // Function to load activities from localStorage
 export function loadActivitiesFromStorage() {
+  const storedActivities = localStorage.getItem("userActivities");
+  if (!storedActivities) return null;
   try {
-    const storedActivities = localStorage.getItem("userActivities");
-    if (storedActivities) {
-      const savedActivities = JSON.parse(storedActivities);
-      // Clear existing activities and add saved ones
-      activities.length = 0;
-      activities.push(...savedActivities);
-    } else {
-      // First time user - save the default activities to localStorage
-      saveActivitiesToStorage();
-    }
-  } catch (error) {
-    console.error("Error loading activities from localStorage:", error);
-    // Keep the default activities from workouts.js if localStorage fails
+    // Ensure the loaded activities have IDs
+    return ensureIds(JSON.parse(storedActivities));
+  } catch (e) {
+    console.error("Error parsing activities from localStorage", e);
+    return null;
   }
 }
 
 // Function to save activities to localStorage
-function saveActivitiesToStorage() {
+export function saveActivitiesToStorage(activitiesToSave) {
+  if (!activitiesToSave) return;
   try {
-    localStorage.setItem("userActivities", JSON.stringify(activities));
+    // Ensure activities have IDs before saving
+    localStorage.setItem(
+      "userActivities",
+      JSON.stringify(ensureIds(activitiesToSave))
+    );
   } catch (error) {
     console.error("Error saving activities to localStorage:", error);
   }
@@ -30,11 +44,43 @@ function saveActivitiesToStorage() {
 
 // Function to add a new activity and save to storage
 function addActivity(newActivity) {
-  activities.push(newActivity);
-  saveActivitiesToStorage();
+  const currentActivities = loadActivitiesFromStorage() || [];
+  const nextId =
+    currentActivities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
+  const item = { id: newActivity.id ?? nextId, ...newActivity };
+  currentActivities.push(item);
+  saveActivitiesToStorage(currentActivities);
 }
 
-loadActivitiesFromStorage();
+// Function to delete an activity by ID
+export function deleteActivity(id) {
+  let activities = loadActivitiesFromStorage() || [];
+  const index = activities.findIndex((activity) => activity.id === id);
+  if (index >= 0) {
+    activities.splice(index, 1);
+    saveActivitiesToStorage(activities);
+    return true;
+  }
+  return false;
+}
+
+// Function to toggle favorite status of an activity by ID
+export function toggleFavorite(id) {
+  let activities = loadActivitiesFromStorage() || [];
+  const index = activities.findIndex((activity) => activity.id === id);
+  if (index >= 0) {
+    activities[index].isFavorite = !activities[index].isFavorite;
+    saveActivitiesToStorage(activities);
+    return true; // Indicate success
+  }
+  return false; // Indicate failure
+}
+
+// Load activities for the main page (index.html)
+// This logic should only affect the main page, not the activities page.
+if (document.querySelector("#weather-card-container")) {
+  loadActivitiesFromStorage();
+}
 
 const weeklyWeatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=60.393&longitude=5.3242&daily=weather_code&current=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_hours=12&past_hours=1";
@@ -112,7 +158,7 @@ const futureForecasts = forecasts
 const weatherContainer = document.querySelector("#weather-card-container");
 
 const getWeatherCard = function (arr) {
-  if (!weatherContainer) return; // Only run if element exists
+  if (!weatherContainer) return;
 
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
@@ -173,7 +219,6 @@ if (date) {
   date.textContent = now.toDateString();
 }
 
-// Modal functionality - only initialize if modal elements exist
 const modal = document.querySelector("#modal");
 
 if (modal) {

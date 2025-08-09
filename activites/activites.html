@@ -37,7 +37,40 @@
     <main class="main" id="main">
       <div>
         <h1 class="activitiesTitle">Activities</h1>
-        <div class="filterOptions"></div>
+        <div class="filterOptions">
+          <div class="filter-group">
+            <label for="activityFilter">Activity:</label>
+            <select id="activityFilter">
+              <option value="all">All Activities</option>
+              <option value="run">Running</option>
+              <option value="bike">Biking</option>
+              <option value="hike">Hiking</option>
+              <option value="favorites">Favorites Only</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="weatherFilter">Weather:</label>
+            <select id="weatherFilter">
+              <option value="all">All Weather</option>
+              <option value="clear">Clear/Sunny</option>
+              <option value="cloudy">Cloudy</option>
+              <option value="rain">Rainy</option>
+              <option value="drizzle">Drizzle</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="sortFilter">Sort by:</label>
+            <select id="sortFilter">
+              <option value="date">Date (Newest)</option>
+              <option value="duration-desc">Duration (Longest)</option>
+              <option value="duration-asc">Duration (Shortest)</option>
+              <option value="distance-desc">Distance (Farthest)</option>
+              <option value="distance-asc">Distance (Shortest)</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="bottom-container">
         <div class="activity-card-container" id="activity-card-container"></div>

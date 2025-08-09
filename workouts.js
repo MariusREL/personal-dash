@@ -1,5 +1,6 @@
 export const activities = [
   {
+    id: 1,
     activityType: "bike",
     weather: "../icons/clear-day.svg",
     weatherCode: 1,
@@ -9,9 +10,11 @@ export const activities = [
     comment: "Perfect morning ride along the coast",
     date: "05-08-2025",
     location: "Bergen Coastal Route",
+    isFavorite: false,
   },
 
   {
+    id: 2,
     activityType: "run",
     weather: "../icons/partly-cloudy-day.svg",
     weatherCode: 2,
@@ -21,8 +24,10 @@ export const activities = [
     comment: "Great tempo run through the park",
     date: "04-08-2025",
     location: "Fløyen Trail",
+    isFavorite: true,
   },
   {
+    id: 3,
     activityType: "hike",
     weather: "../icons/overcast.svg",
     weatherCode: 3,
@@ -32,8 +37,10 @@ export const activities = [
     comment: "Challenging hike with amazing views at the summit",
     date: "03-08-2025",
     location: "Mount Ulriken",
+    isFavorite: false,
   },
   {
+    id: 4,
     activityType: "bike",
     weather: "../icons/rain.svg",
     weatherCode: 61,
@@ -43,8 +50,10 @@ export const activities = [
     comment: "Got caught in the rain but still enjoyed it",
     date: "02-08-2025",
     location: "City Center Loop",
+    isFavorite: false,
   },
   {
+    id: 5,
     activityType: "run",
     weather: "../icons/clear-day.svg",
     weatherCode: 0,
@@ -54,8 +63,10 @@ export const activities = [
     comment: "Easy recovery run on a beautiful sunny day",
     date: "01-08-2025",
     location: "Bryggen Waterfront",
+    isFavorite: true,
   },
   {
+    id: 6,
     activityType: "hike",
     weather: "../icons/partly-cloudy-day.svg",
     weatherCode: 2,
@@ -65,8 +76,10 @@ export const activities = [
     comment: "Family hike to the lake, kids loved it",
     date: "31-07-2025",
     location: "Skomakerdiket Trail",
+    isFavorite: false,
   },
   {
+    id: 7,
     activityType: "bike",
     weather: "../icons/drizzle.svg",
     weatherCode: 51,
@@ -76,5 +89,6 @@ export const activities = [
     comment: "Long ride in light drizzle, felt refreshing",
     date: "30-07-2025",
     location: "Hardangerfjord Route",
+    isFavorite: false,
   },
 ];
