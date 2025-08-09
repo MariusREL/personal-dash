@@ -45,8 +45,7 @@ export function saveActivitiesToStorage(activitiesToSave) {
 // Function to add a new activity and save to storage
 function addActivity(newActivity) {
   const currentActivities = loadActivitiesFromStorage() || [];
-  const nextId =
-    currentActivities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
+  const nextId = currentActivities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
   const item = { id: newActivity.id ?? nextId, ...newActivity };
   currentActivities.push(item);
   saveActivitiesToStorage(currentActivities);

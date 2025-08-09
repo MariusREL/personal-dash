@@ -182,7 +182,9 @@ const createHtmlTemplate = function (activitiesToShow = null) {
           </div>
         </section>
         <section class="locationComment">
-          <p><i class="fa-solid fa-map-location-dot"></i> ${activity.location}</p>
+          <p><i class="fa-solid fa-map-location-dot"></i> ${
+            activity.location
+          }</p>
           <p><i class="fa-solid fa-comment"></i> ${activity.comment}</p>
         </section>
       </div>
