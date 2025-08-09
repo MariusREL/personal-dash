@@ -1,7 +1,7 @@
 import { activities } from "./workouts.js";
 
 // Function to load activities from localStorage
-function loadActivitiesFromStorage() {
+export function loadActivitiesFromStorage() {
   try {
     const storedActivities = localStorage.getItem("userActivities");
     if (storedActivities) {
@@ -75,8 +75,18 @@ const {
   },
 } = weatherData;
 
-function getWeatherIcon(weatherCode) {
+export function getWeatherIcon(weatherCode) {
   return weatherCodeToIcon[weatherCode];
+}
+
+export function weatherChecker(arr) {
+  if (arr[0] === 0 || arr[0] === 1) {
+    return "Sunny";
+  } else if (arr[0] === 2 || arr[0] === 3 || arr[0] === 4) {
+    return "cloudy";
+  } else {
+    return "pretty awful weather";
+  }
 }
 
 const forecasts = time.map((timestamp, i) => ({
@@ -102,6 +112,8 @@ const futureForecasts = forecasts
 const weatherContainer = document.querySelector("#weather-card-container");
 
 const getWeatherCard = function (arr) {
+  if (!weatherContainer) return; // Only run if element exists
+
   arr.forEach((forecast) => {
     const weatherCard = document.createElement("div");
     const tempElem = document.createElement("span");
@@ -134,331 +146,331 @@ const getWeatherCard = function (arr) {
   });
 };
 
-getWeatherCard(futureForecasts);
+// Only call if weather container exists
+if (weatherContainer) {
+  getWeatherCard(futureForecasts);
+}
 
 const headerText = document.querySelector("#header-text");
-const h1Header = document.createElement("h1");
-h1Header.classList.add("header-h1");
 
-const currentTemp =
-  futureForecasts.length > 0
-    ? Math.floor(parseFloat(futureForecasts[0].temperature))
-    : Math.floor(temperatures[0]);
+if (headerText) {
+  const h1Header = document.createElement("h1");
+  h1Header.classList.add("header-h1");
 
-function weatherChecker(arr) {
-  if (arr[0] === 0 || arr[0] === 1) {
-    return "Sunny";
-  } else if (arr[0] === 2 || arr[0] === 3 || arr[0] === 4) {
-    return "cloudy";
-  } else {
-    return "pretty awful weather";
-  }
+  const currentTemp =
+    futureForecasts.length > 0
+      ? Math.floor(parseFloat(futureForecasts[0].temperature))
+      : Math.floor(temperatures[0]);
+
+  h1Header.innerHTML = `It's ${currentTemp} degrees and ${weatherChecker(
+    weatherCodes
+  )} right now, perfect conditions to go outside`.toLocaleUpperCase();
+  headerText.appendChild(h1Header);
 }
-
-h1Header.innerHTML = `It's ${currentTemp} degrees and ${weatherChecker(
-  weatherCodes
-)} right now, perfect conditions to go outside`.toLocaleUpperCase();
-headerText.appendChild(h1Header);
 
 const date = document.querySelector(".date");
-date.textContent = now.toDateString();
+if (date) {
+  date.textContent = now.toDateString();
+}
 
-// Modal functionality
-let selectedActivity = "";
+// Modal functionality - only initialize if modal elements exist
 const modal = document.querySelector("#modal");
 
-const activityButtons = document.querySelectorAll(
-  "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike, .get-started"
-);
-const closeButton = document.querySelector(".close-modal");
+if (modal) {
+  let selectedActivity = "";
 
-const modalButtons = document.querySelectorAll(
-  "#modal-hike, #modal-run, #modal-bike"
-);
-
-function openModal() {
-  if (modal.classList.contains("visible")) {
-    return;
-  }
-  setTimeout(() => {
-    modal.classList.remove("invisible");
-    modal.classList.add("visible");
-    document.body.style.overflow = "hidden";
-
-    setupMondayWeekStart();
-  }, 5);
-
-  if (!document.getElementById("modal-backdrop")) {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-    backdrop.id = "modal-backdrop";
-    document.body.appendChild(backdrop);
-  }
-
-  const backgroundElements = [
-    document.querySelector(".hero-container"),
-    document.querySelector("main > .trip-logger"),
-    document.querySelector(".weather-section"),
-    document.querySelector("footer"),
-  ];
-
-  backgroundElements.forEach((element) => {
-    if (element) {
-      element.style.pointerEvents = "none";
-      element.classList.add("background-dimmed");
-    }
-  });
-}
-
-function closeModal() {
-  modal.classList.add("invisible");
-  modal.classList.remove("visible");
-  document.body.style.overflow = "auto";
-
-  if (
-    window.datePickerInstance &&
-    typeof window.datePickerInstance.destroy === "function"
-  ) {
-    window.datePickerInstance.destroy();
-    window.datePickerInstance = null;
-  }
-
-  const flatpickrElements = document.querySelectorAll(
-    ".flatpickr-calendar, .flatpickr-overlay"
+  const activityButtons = document.querySelectorAll(
+    "main > .trip-logger .bike, main > .trip-logger .run, main > .trip-logger .hike, .get-started"
   );
-  flatpickrElements.forEach((element) => {
-    if (element && element.parentNode) {
-      element.style.display = "none";
-      element.parentNode.removeChild(element);
+  const closeButton = document.querySelector(".close-modal");
+
+  const modalButtons = document.querySelectorAll(
+    "#modal-hike, #modal-run, #modal-bike"
+  );
+
+  function openModal() {
+    if (modal.classList.contains("visible")) {
+      return;
     }
-  });
+    setTimeout(() => {
+      modal.classList.remove("invisible");
+      modal.classList.add("visible");
+      document.body.style.overflow = "hidden";
 
-  const backdrop = document.getElementById("modal-backdrop");
-  if (backdrop) {
-    backdrop.remove();
-  }
+      setupMondayWeekStart();
+    }, 5);
 
-  const backgroundElements = [
-    document.querySelector(".hero-container"),
-    document.querySelector("main > .trip-logger"),
-    document.querySelector(".weather-section"),
-    document.querySelector("footer"),
-  ];
-
-  backgroundElements.forEach((element) => {
-    if (element) {
-      element.style.pointerEvents = "auto";
-      element.classList.remove("background-dimmed");
+    if (!document.getElementById("modal-backdrop")) {
+      const backdrop = document.createElement("div");
+      backdrop.className = "modal-backdrop";
+      backdrop.id = "modal-backdrop";
+      document.body.appendChild(backdrop);
     }
-  });
 
-  const form = document.querySelector("#input-container");
-  if (form) {
-    form.reset();
-    form.style.display = "none";
-    setTimeout(() => {
-      form.style.display = "";
-    }, 50);
-  }
+    const backgroundElements = [
+      document.querySelector(".hero-container"),
+      document.querySelector("main > .trip-logger"),
+      document.querySelector(".weather-section"),
+      document.querySelector("footer"),
+    ];
 
-  if (modalButtons) {
-    modalButtons.forEach((btn) => btn.classList.remove("active"));
-  }
-
-  const formTitle = document.querySelector(".form-title");
-  if (formTitle) {
-    formTitle.textContent = "Log Your Activity";
-  }
-
-  const formActions = document.querySelector(".form-actions");
-  if (formActions) {
-    formActions.style.display = "none";
-    setTimeout(() => {
-      formActions.style.display = "";
-    }, 50);
-  }
-}
-
-activityButtons.forEach((button) => {
-  button.addEventListener("click", function (e) {
-    openModal();
-
-    setTimeout(() => {
-      let activityType = "";
-      if (e.target.classList.contains("run") || e.target.closest(".run")) {
-        activityType = "run";
-      } else if (
-        e.target.classList.contains("bike") ||
-        e.target.closest(".bike")
-      ) {
-        activityType = "bike";
-      } else if (
-        e.target.classList.contains("hike") ||
-        e.target.closest(".hike")
-      ) {
-        activityType = "hike";
+    backgroundElements.forEach((element) => {
+      if (element) {
+        element.style.pointerEvents = "none";
+        element.classList.add("background-dimmed");
       }
+    });
+  }
 
-      if (activityType) {
-        modalButtons.forEach((btn) => btn.classList.remove("active"));
+  function closeModal() {
+    modal.classList.add("invisible");
+    modal.classList.remove("visible");
+    document.body.style.overflow = "auto";
 
-        const correspondingModalButton = document.querySelector(
-          `#modal-${activityType}`
-        );
-        if (correspondingModalButton) {
-          correspondingModalButton.classList.add("active");
-          updateFormForActivity(activityType);
+    if (
+      window.datePickerInstance &&
+      typeof window.datePickerInstance.destroy === "function"
+    ) {
+      window.datePickerInstance.destroy();
+      window.datePickerInstance = null;
+    }
+
+    const flatpickrElements = document.querySelectorAll(
+      ".flatpickr-calendar, .flatpickr-overlay"
+    );
+    flatpickrElements.forEach((element) => {
+      if (element && element.parentNode) {
+        element.style.display = "none";
+        element.parentNode.removeChild(element);
+      }
+    });
+
+    const backdrop = document.getElementById("modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    const backgroundElements = [
+      document.querySelector(".hero-container"),
+      document.querySelector("main > .trip-logger"),
+      document.querySelector(".weather-section"),
+      document.querySelector("footer"),
+    ];
+
+    backgroundElements.forEach((element) => {
+      if (element) {
+        element.style.pointerEvents = "auto";
+        element.classList.remove("background-dimmed");
+      }
+    });
+
+    const form = document.querySelector("#input-container");
+    if (form) {
+      form.reset();
+      form.style.display = "none";
+      setTimeout(() => {
+        form.style.display = "";
+      }, 50);
+    }
+
+    if (modalButtons) {
+      modalButtons.forEach((btn) => btn.classList.remove("active"));
+    }
+
+    const formTitle = document.querySelector(".form-title");
+    if (formTitle) {
+      formTitle.textContent = "Log Your Activity";
+    }
+
+    const formActions = document.querySelector(".form-actions");
+    if (formActions) {
+      formActions.style.display = "none";
+      setTimeout(() => {
+        formActions.style.display = "";
+      }, 50);
+    }
+  }
+
+  activityButtons.forEach((button) => {
+    button.addEventListener("click", function (e) {
+      openModal();
+
+      setTimeout(() => {
+        let activityType = "";
+        if (e.target.classList.contains("run") || e.target.closest(".run")) {
+          activityType = "run";
+        } else if (
+          e.target.classList.contains("bike") ||
+          e.target.closest(".bike")
+        ) {
+          activityType = "bike";
+        } else if (
+          e.target.classList.contains("hike") ||
+          e.target.closest(".hike")
+        ) {
+          activityType = "hike";
         }
-      }
-    }, 200);
+
+        if (activityType) {
+          modalButtons.forEach((btn) => btn.classList.remove("active"));
+
+          const correspondingModalButton = document.querySelector(
+            `#modal-${activityType}`
+          );
+          if (correspondingModalButton) {
+            correspondingModalButton.classList.add("active");
+            updateFormForActivity(activityType);
+          }
+        }
+      }, 200);
+    });
   });
-});
 
-closeButton.addEventListener("click", closeModal);
+  closeButton.addEventListener("click", closeModal);
 
-const cancelBtn = document.querySelector("#cancel-btn");
+  const cancelBtn = document.querySelector("#cancel-btn");
 
-cancelBtn.addEventListener("click", closeModal);
+  cancelBtn.addEventListener("click", closeModal);
 
-document.addEventListener("click", (e) => {
-  if (e.target.id === "modal-backdrop") {
-    closeModal();
-  }
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.classList.contains("visible")) {
-    closeModal();
-  }
-});
-
-function updateFormForActivity(activityType) {
-  selectedActivity = activityType;
-  const formTitle = document.querySelector(".form-title");
-  const capitalizedActivity =
-    activityType.charAt(0).toUpperCase() + activityType.slice(1);
-  formTitle.textContent = `Log Your ${capitalizedActivity}`;
-
-  const distanceInput = document.querySelector("#activity-distance");
-  const startTimeInput = document.querySelector("#activity-start-time");
-  const endTimeInput = document.querySelector("#activity-end-time");
-
-  if (activityType === "bike") {
-    distanceInput.placeholder = "25";
-    startTimeInput.placeholder = "09:00";
-    endTimeInput.placeholder = "10:30";
-  } else if (activityType === "run") {
-    distanceInput.placeholder = "5.2";
-    startTimeInput.placeholder = "07:00";
-    endTimeInput.placeholder = "07:45";
-  } else if (activityType === "hike") {
-    distanceInput.placeholder = "8.5";
-    startTimeInput.placeholder = "08:00";
-    endTimeInput.placeholder = "11:00";
-  }
-
-  if (!window.datePickerInstance) {
-    initializeDatePicker();
-  }
-}
-
-function initializeDatePicker() {
-  const dateInput = document.querySelector("#activity-date");
-  if (!dateInput) return;
-
-  if (
-    window.datePickerInstance &&
-    typeof window.datePickerInstance.destroy === "function"
-  ) {
-    window.datePickerInstance.destroy();
-    window.datePickerInstance = null;
-  }
-
-  window.datePickerInstance = flatpickr(dateInput, {
-    locale: {
-      firstDayOfWeek: 1,
-    },
-    dateFormat: "d-m-Y",
-    defaultDate: "today",
-    allowInput: false,
-    clickOpens: true,
-    theme: "light",
-
-    onReady: function (selectedDates, dateStr, instance) {
-      if (instance && instance.calendarContainer) {
-        const calendar = instance.calendarContainer;
-        calendar.style.fontFamily = "var(--default-font-family)";
-        calendar.style.fontSize = "0.875rem";
-      }
-    },
-  });
-}
-
-function setupMondayWeekStart() {
-  if (!window.datePickerInstance) {
-    initializeDatePicker();
-  }
-}
-
-modalButtons.forEach(function (button) {
-  button.addEventListener("click", function (e) {
-    modalButtons.forEach((btn) => btn.classList.remove("active"));
-    e.target.classList.add("active");
-
-    if (e.target.classList.contains("run")) {
-      updateFormForActivity("run");
-    } else if (e.target.classList.contains("bike")) {
-      updateFormForActivity("bike");
-    } else if (e.target.classList.contains("hike")) {
-      updateFormForActivity("hike");
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "modal-backdrop") {
+      closeModal();
     }
   });
-});
 
-const inputForm = document.querySelector("#input-container");
-const activityStartTime = document.querySelector("#activity-start-time");
-const activityEndTime = document.querySelector("#activity-end-time");
-const activityDistance = document.querySelector("#activity-distance");
-const activityLocation = document.querySelector("#activity-location");
-const activityDate = document.querySelector("#activity-date");
-const activityComment = document.querySelector("#activity-comment");
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("visible")) {
+      closeModal();
+    }
+  });
 
-// Function to calculate duration between start and end time
-function calculateDuration(startTime, endTime) {
-  if (!startTime || !endTime) return "";
+  function updateFormForActivity(activityType) {
+    selectedActivity = activityType;
+    const formTitle = document.querySelector(".form-title");
+    const capitalizedActivity =
+      activityType.charAt(0).toUpperCase() + activityType.slice(1);
+    formTitle.textContent = `Log Your ${capitalizedActivity}`;
 
-  const [startHours, startMinutes] = startTime.split(":").map(Number);
-  const [endHours, endMinutes] = endTime.split(":").map(Number);
+    const distanceInput = document.querySelector("#activity-distance");
+    const startTimeInput = document.querySelector("#activity-start-time");
+    const endTimeInput = document.querySelector("#activity-end-time");
 
-  // Convert to minutes for easier calculation
-  const startTotalMinutes = startHours * 60 + startMinutes;
-  let endTotalMinutes = endHours * 60 + endMinutes;
+    if (activityType === "bike") {
+      distanceInput.placeholder = "25";
+      startTimeInput.placeholder = "09:00";
+      endTimeInput.placeholder = "10:30";
+    } else if (activityType === "run") {
+      distanceInput.placeholder = "5.2";
+      startTimeInput.placeholder = "07:00";
+      endTimeInput.placeholder = "07:45";
+    } else if (activityType === "hike") {
+      distanceInput.placeholder = "8.5";
+      startTimeInput.placeholder = "08:00";
+      endTimeInput.placeholder = "11:00";
+    }
 
-  // Handle case where activity crosses midnight
-  if (endTotalMinutes < startTotalMinutes) {
-    endTotalMinutes += 24 * 60; // Add 24 hours worth of minutes
+    if (!window.datePickerInstance) {
+      initializeDatePicker();
+    }
   }
 
-  const durationMinutes = endTotalMinutes - startTotalMinutes;
+  function initializeDatePicker() {
+    const dateInput = document.querySelector("#activity-date");
+    if (!dateInput) return;
 
-  // Convert back to hours and minutes
-  const hours = Math.floor(durationMinutes / 60);
-  const minutes = durationMinutes % 60;
+    if (
+      window.datePickerInstance &&
+      typeof window.datePickerInstance.destroy === "function"
+    ) {
+      window.datePickerInstance.destroy();
+      window.datePickerInstance = null;
+    }
 
-  // Format duration string
-  if (hours > 0 && minutes > 0) {
-    return `${hours}h ${minutes}m`;
-  } else if (hours > 0) {
-    return `${hours}h`;
-  } else {
-    return `${minutes}m`;
+    window.datePickerInstance = flatpickr(dateInput, {
+      locale: {
+        firstDayOfWeek: 1,
+      },
+      dateFormat: "d-m-Y",
+      defaultDate: "today",
+      allowInput: false,
+      clickOpens: true,
+      theme: "light",
+
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance && instance.calendarContainer) {
+          const calendar = instance.calendarContainer;
+          calendar.style.fontFamily = "var(--default-font-family)";
+          calendar.style.fontSize = "0.875rem";
+        }
+      },
+    });
   }
-}
 
-function showSuccessConfirmation(activityType, duration, distance) {
-  const confirmation = document.createElement("div");
-  confirmation.className = "success-confirmation";
-  confirmation.innerHTML = `
+  function setupMondayWeekStart() {
+    if (!window.datePickerInstance) {
+      initializeDatePicker();
+    }
+  }
+
+  modalButtons.forEach(function (button) {
+    button.addEventListener("click", function (e) {
+      modalButtons.forEach((btn) => btn.classList.remove("active"));
+      e.target.classList.add("active");
+
+      if (e.target.classList.contains("run")) {
+        updateFormForActivity("run");
+      } else if (e.target.classList.contains("bike")) {
+        updateFormForActivity("bike");
+      } else if (e.target.classList.contains("hike")) {
+        updateFormForActivity("hike");
+      }
+    });
+  });
+
+  const inputForm = document.querySelector("#input-container");
+  const activityStartTime = document.querySelector("#activity-start-time");
+  const activityEndTime = document.querySelector("#activity-end-time");
+  const activityDistance = document.querySelector("#activity-distance");
+  const activityLocation = document.querySelector("#activity-location");
+  const activityDate = document.querySelector("#activity-date");
+  const activityComment = document.querySelector("#activity-comment");
+
+  // Function to calculate duration between start and end time
+  function calculateDuration(startTime, endTime) {
+    if (!startTime || !endTime) return "";
+
+    const [startHours, startMinutes] = startTime.split(":").map(Number);
+    const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+    // Convert to minutes for easier calculation
+    const startTotalMinutes = startHours * 60 + startMinutes;
+    let endTotalMinutes = endHours * 60 + endMinutes;
+
+    // Handle case where activity crosses midnight
+    if (endTotalMinutes < startTotalMinutes) {
+      endTotalMinutes += 24 * 60; // Add 24 hours worth of minutes
+    }
+
+    const durationMinutes = endTotalMinutes - startTotalMinutes;
+
+    // Convert back to hours and minutes
+    const hours = Math.floor(durationMinutes / 60);
+    const minutes = durationMinutes % 60;
+
+    // Format duration string
+    if (hours > 0 && minutes > 0) {
+      return `${hours}h ${minutes}m`;
+    } else if (hours > 0) {
+      return `${hours}h`;
+    } else {
+      return `${minutes}m`;
+    }
+  }
+
+  function showSuccessConfirmation(activityType, duration, distance) {
+    const confirmation = document.createElement("div");
+    confirmation.className = "success-confirmation";
+    confirmation.innerHTML = `
     <div class="confirmation-content">
       <div class="confirmation-icon">✅</div>
       <div class="confirmation-text">
@@ -470,95 +482,96 @@ function showSuccessConfirmation(activityType, duration, distance) {
     </div>
   `;
 
-  document.body.appendChild(confirmation);
+    document.body.appendChild(confirmation);
 
-  setTimeout(() => {
-    if (confirmation && confirmation.parentNode) {
-      confirmation.classList.add("confirmation-fade-out");
-      setTimeout(() => confirmation.remove(), 300);
+    setTimeout(() => {
+      if (confirmation && confirmation.parentNode) {
+        confirmation.classList.add("confirmation-fade-out");
+        setTimeout(() => confirmation.remove(), 300);
+      }
+    }, 3000);
+  }
+  // get weather depending on which date the user picks and save it into the activities
+
+  function getWeatherForDate(selectedDate, selectedTime) {
+    // Convert d-m-Y format to YYYY-MM-DD format for proper parsing
+    const dateParts = selectedDate.split("-");
+    const formattedDate = `${dateParts[2]}-${dateParts[1].padStart(
+      2,
+      "0"
+    )}-${dateParts[0].padStart(2, "0")}`;
+    const targetDateTime = new Date(`${formattedDate}T${selectedTime}:00`);
+
+    const findMatchingForecast = forecasts.find((forecast) => {
+      const forecastDate = forecast.time;
+      const isSameDay =
+        forecastDate.toDateString() === targetDateTime.toDateString();
+      const hourDiff = Math.abs(
+        forecastDate.getHours() - targetDateTime.getHours()
+      );
+
+      return isSameDay && hourDiff <= 1;
+    });
+
+    if (findMatchingForecast) {
+      return {
+        weatherCode: findMatchingForecast.weatherCode,
+        icon: findMatchingForecast.icon,
+        temperature: findMatchingForecast.temperature,
+        description: weatherChecker([findMatchingForecast.weatherCode]),
+      };
     }
-  }, 3000);
-}
-// get weather depending on which date the user picks and save it into the activities
 
-function getWeatherForDate(selectedDate, selectedTime) {
-  // Convert d-m-Y format to YYYY-MM-DD format for proper parsing
-  const dateParts = selectedDate.split("-");
-  const formattedDate = `${dateParts[2]}-${dateParts[1].padStart(
-    2,
-    "0"
-  )}-${dateParts[0].padStart(2, "0")}`;
-  const targetDateTime = new Date(`${formattedDate}T${selectedTime}:00`);
-
-  const findMatchingForecast = forecasts.find((forecast) => {
-    const forecastDate = forecast.time;
-    const isSameDay =
-      forecastDate.toDateString() === targetDateTime.toDateString();
-    const hourDiff = Math.abs(
-      forecastDate.getHours() - targetDateTime.getHours()
-    );
-
-    return isSameDay && hourDiff <= 1;
-  });
-
-  if (findMatchingForecast) {
+    // Fallback to current weather if no match found
+    const fallbackWeatherCode =
+      futureForecasts[0]?.weatherCode || weatherCodes[0];
     return {
-      weatherCode: findMatchingForecast.weatherCode,
-      icon: findMatchingForecast.icon,
-      temperature: findMatchingForecast.temperature,
-      description: weatherChecker([findMatchingForecast.weatherCode]),
+      weatherCode: fallbackWeatherCode,
+      icon: futureForecasts[0]?.icon || getWeatherIcon(fallbackWeatherCode),
+      temperature: futureForecasts[0]?.temperature || temperatures[0] + "°C",
+      description: weatherChecker([fallbackWeatherCode]),
     };
   }
 
-  // Fallback to current weather if no match found
-  const fallbackWeatherCode =
-    futureForecasts[0]?.weatherCode || weatherCodes[0];
-  return {
-    weatherCode: fallbackWeatherCode,
-    icon: futureForecasts[0]?.icon || getWeatherIcon(fallbackWeatherCode),
-    temperature: futureForecasts[0]?.temperature || temperatures[0] + "°C",
-    description: weatherChecker([fallbackWeatherCode]),
-  };
-}
+  inputForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-inputForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+    if (selectedActivity !== "") {
+      const calculatedDuration = calculateDuration(
+        activityStartTime.value,
+        activityEndTime.value
+      );
 
-  if (selectedActivity !== "") {
-    const calculatedDuration = calculateDuration(
-      activityStartTime.value,
-      activityEndTime.value
-    );
+      if (!calculatedDuration) {
+        alert("Please enter valid start and end times");
+        return;
+      }
+      const weatherForDate = getWeatherForDate(
+        activityDate.value,
+        activityStartTime.value
+      );
 
-    if (!calculatedDuration) {
-      alert("Please enter valid start and end times");
-      return;
+      const newActivity = {
+        activityType: selectedActivity,
+        weather: weatherForDate.icon,
+        weatherCode: weatherForDate.weatherCode,
+        temperature: weatherForDate.temperature,
+        duration: calculatedDuration,
+        distance: activityDistance.value,
+        comment: activityComment.value,
+        date: activityDate.value,
+        location: activityLocation.value,
+      };
+
+      addActivity(newActivity);
+
+      showSuccessConfirmation(
+        selectedActivity,
+        calculatedDuration,
+        activityDistance.value
+      );
+
+      closeModal();
     }
-    const weatherForDate = getWeatherForDate(
-      activityDate.value,
-      activityStartTime.value
-    );
-
-    const newActivity = {
-      activityType: selectedActivity,
-      weather: weatherForDate.icon,
-      weatherCode: weatherForDate.weatherCode,
-      temperature: weatherForDate.temperature,
-      duration: calculatedDuration,
-      distance: activityDistance.value,
-      comment: activityComment.value,
-      date: activityDate.value,
-      location: activityLocation.value,
-    };
-
-    addActivity(newActivity);
-
-    showSuccessConfirmation(
-      selectedActivity,
-      calculatedDuration,
-      activityDistance.value
-    );
-
-    closeModal();
-  }
-});
+  });
+} // End of modal functionality conditional

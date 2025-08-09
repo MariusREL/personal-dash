@@ -1,30 +1,30 @@
 export const weatherCodeToIcon = {
-  0: "./icons/clear-day.svg",
-  1: "./icons/clear-day.svg",
-  2: "./icons/partly-cloudy-day.svg",
-  3: "./icons/overcast.svg",
-  45: "fog",
-  48: "rime_fog",
-  51: "./icons/drizzle.svg",
-  53: "/icons/rain.svg",
-  55: "/icons/rain.svg",
-  56: "freezing_drizzle_light",
-  57: "freezing_drizzle_dense",
-  61: "./icons/drizzle.svg",
-  63: "./icons/rain.svg",
-  65: "rain_heavy",
-  66: "freezing_rain_light",
-  67: "freezing_rain_heavy",
-  71: "snow_light",
-  73: "snow_moderate",
-  75: "snow_heavy",
-  77: "snow_grains",
-  80: "./icons/partly-cloudy-day-drizzle.svg",
-  81: "rain_shower_moderate",
-  82: "rain_shower_heavy",
-  85: "snow_shower_light",
-  86: "snow_shower_heavy",
-  95: "thunderstorm",
-  96: "thunderstorm_hail_light",
-  99: "thunderstorm_hail_heavy",
+  0: "../icons/clear-day.svg", // Clear sky
+  1: "../icons/clear-day.svg", // Mainly clear
+  2: "../icons/partly-cloudy-day.svg", // Partly cloudy
+  3: "../icons/overcast.svg", // Overcast
+  45: "../icons/fog.svg", // Fog
+  48: "../icons/fog.svg", // Depositing rime fog
+  51: "../icons/drizzle.svg", // Drizzle: Light
+  53: "../icons/drizzle.svg", // Drizzle: Moderate
+  55: "../icons/drizzle.svg", // Drizzle: Dense intensity
+  56: "../icons/drizzle.svg", // Freezing Drizzle: Light
+  57: "../icons/drizzle.svg", // Freezing Drizzle: Dense intensity
+  61: "../icons/rain.svg", // Rain: Slight
+  63: "../icons/rain.svg", // Rain: Moderate
+  65: "../icons/rain.svg", // Rain: Heavy intensity
+  66: "../icons/rain.svg", // Freezing Rain: Light
+  67: "../icons/rain.svg", // Freezing Rain: Heavy intensity
+  71: "../icons/snow.svg", // Snow fall: Slight
+  73: "../icons/snow.svg", // Snow fall: Moderate
+  75: "../icons/snow.svg", // Snow fall: Heavy intensity
+  77: "../icons/snow.svg", // Snow grains
+  80: "../icons/partly-cloudy-day-rain.svg", // Rain showers: Slight
+  81: "../icons/rain.svg", // Rain showers: Moderate
+  82: "../icons/rain.svg", // Rain showers: Violent
+  85: "../icons/snow.svg", // Snow showers slight
+  86: "../icons/snow.svg", // Snow showers heavy
+  95: "../icons/thunderstorms.svg", // Thunderstorm: Slight or moderate
+  96: "../icons/thunderstorms.svg", // Thunderstorm with slight hail
+  99: "../icons/thunderstorms.svg", // Thunderstorm with heavy hail
 };
