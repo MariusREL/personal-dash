@@ -17,26 +17,37 @@ function ensureIds(list) {
 
 // Function to load activities from localStorage
 export function loadActivitiesFromStorage() {
-  const storedActivities = localStorage.getItem("userActivities");
-  if (!storedActivities) return null;
   try {
-    // Ensure the loaded activities have IDs
-    return ensureIds(JSON.parse(storedActivities));
-  } catch (e) {
-    console.error("Error parsing activities from localStorage", e);
-    return null;
+    const storedActivities = localStorage.getItem("userActivities");
+    if (storedActivities) {
+      const savedActivities = JSON.parse(storedActivities);
+      // Clear existing activities and add saved ones
+      activities.length = 0;
+      activities.push(...ensureIds(savedActivities));
+      return activities;
+    } else {
+      // First time user - save the default activities to localStorage
+      // initialize with default activities (ensure IDs) and persist
+      saveActivitiesToStorage(ensureIds(activities));
+      return activities;
+    }
+  } catch (error) {
+    console.error("Error loading activities from localStorage:", error);
+    // Keep the default activities from workouts.js if localStorage fails
+    return activities;
   }
 }
 
 // Function to save activities to localStorage
-export function saveActivitiesToStorage(activitiesToSave) {
-  if (!activitiesToSave) return;
+function saveActivitiesToStorage(updatedActivities = null) {
   try {
-    // Ensure activities have IDs before saving
-    localStorage.setItem(
-      "userActivities",
-      JSON.stringify(ensureIds(activitiesToSave))
-    );
+    const activitiesToSave = ensureIds(updatedActivities || activities);
+    localStorage.setItem("userActivities", JSON.stringify(activitiesToSave));
+    // Update the global activities array if we passed in updated activities
+    if (updatedActivities) {
+      activities.length = 0; // Clear the array
+      activities.push(...ensureIds(updatedActivities)); // Add all updated activities
+    }
   } catch (error) {
     console.error("Error saving activities to localStorage:", error);
   }
@@ -44,16 +55,17 @@ export function saveActivitiesToStorage(activitiesToSave) {
 
 // Function to add a new activity and save to storage
 function addActivity(newActivity) {
-  const currentActivities = loadActivitiesFromStorage() || [];
-  const nextId = currentActivities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
+  // assign an id if missing
+  ensureIds(activities);
+  const nextId = activities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
   const item = { id: newActivity.id ?? nextId, ...newActivity };
-  currentActivities.push(item);
-  saveActivitiesToStorage(currentActivities);
+  activities.push(item);
+  saveActivitiesToStorage(activities);
 }
 
 // Function to delete an activity by ID
 export function deleteActivity(id) {
-  let activities = loadActivitiesFromStorage() || [];
+  const activities = loadActivitiesFromStorage();
   const index = activities.findIndex((activity) => activity.id === id);
   if (index >= 0) {
     activities.splice(index, 1);
@@ -65,21 +77,17 @@ export function deleteActivity(id) {
 
 // Function to toggle favorite status of an activity by ID
 export function toggleFavorite(id) {
-  let activities = loadActivitiesFromStorage() || [];
+  const activities = loadActivitiesFromStorage();
   const index = activities.findIndex((activity) => activity.id === id);
   if (index >= 0) {
     activities[index].isFavorite = !activities[index].isFavorite;
     saveActivitiesToStorage(activities);
-    return true; // Indicate success
+    return activities[index].isFavorite;
   }
-  return false; // Indicate failure
+  return false;
 }
 
-// Load activities for the main page (index.html)
-// This logic should only affect the main page, not the activities page.
-if (document.querySelector("#weather-card-container")) {
-  loadActivitiesFromStorage();
-}
+loadActivitiesFromStorage();
 
 const weeklyWeatherUrl =
   "https://api.open-meteo.com/v1/forecast?latitude=60.393&longitude=5.3242&daily=weather_code&current=temperature_2m,precipitation,weather_code,is_day,wind_speed_10m&forecast_hours=12&past_hours=1";
