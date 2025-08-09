@@ -162,7 +162,7 @@ const createHtmlTemplate = function (activitiesToShow = null) {
             </div>
           </div>
           <div class="distance">
-            <img src="./img/icons8-pulse-30.png" alt="A pulse sound wave" />
+            <img src="../img/icons8-pulse-30.png" alt="A pulse sound wave" />
             <div class="infotext">
               <h2>${activity.distance} km</h2>
               <p>distance</p>
