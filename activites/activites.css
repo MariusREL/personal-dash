@@ -262,15 +262,6 @@ img {
     margin: 0;
 }
 
-
-
-
-
-
-
-
-
-
 @media (max-width: 768px) {
     .activity-card-container{
         grid-template-columns: 1fr;
@@ -293,5 +284,10 @@ img {
     
     .activitiesTitle {
         font-size: 2rem;
+    }
+
+    .card-actions {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
