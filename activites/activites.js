@@ -6,18 +6,34 @@ import {
   toggleFavorite,
 } from "../script.js";
 import { weatherCodeToIcon } from "../weathercodes.js";
-
 import { activities as defaultActivities } from "../workouts.js";
 
 let activities;
+
+// Check if we're on GitHub Pages
+const isGitHubPages = window.location.hostname.includes("github.io");
+
 try {
-  activities = loadActivitiesFromStorage() || defaultActivities;
+  // Try to load from localStorage first
+  if (typeof loadActivitiesFromStorage === "function") {
+    activities = loadActivitiesFromStorage() || defaultActivities;
+  } else {
+    console.warn("loadActivitiesFromStorage function not available");
+    activities = defaultActivities;
+  }
 } catch (error) {
   console.error("Error loading activities:", error);
   activities = defaultActivities;
 }
 
+// Fallback if activities is still not properly loaded
+if (!activities || !Array.isArray(activities) || activities.length === 0) {
+  console.warn("No activities loaded, using default activities");
+  activities = defaultActivities;
+}
+
 // Debug logging
+console.log("Environment:", isGitHubPages ? "GitHub Pages" : "Local");
 console.log("Activities loaded:", activities);
 console.log("Default activities:", defaultActivities);
 
@@ -132,6 +148,8 @@ const createHtmlTemplate = function (activitiesToShow = null) {
       return;
     }
 
+    console.log("Processing activity:", activity);
+
     let activityIcon = "fa-solid fa-person-running";
     if (
       activity.activityType === "bike" ||
@@ -159,17 +177,17 @@ const createHtmlTemplate = function (activitiesToShow = null) {
         ? weatherChecker([activity.weatherCode])
         : "Weather");
 
-    // Ensure all required fields have fallback values
+    // Use original activity data, only add fallbacks for truly undefined/null values
     const safeActivity = {
-      id: activity.id || "unknown",
-      activityType: activity.activityType || "Unknown",
-      duration: activity.duration || "N/A",
-      distance: activity.distance || "0",
-      date: activity.date || "Unknown date",
-      location: activity.location || "Unknown location",
-      comment: activity.comment || "No comment",
-      temperature: activity.temperature || "N/A",
-      isFavorite: Boolean(activity.isFavorite),
+      id: activity.id,
+      activityType: activity.activityType,
+      duration: activity.duration,
+      distance: activity.distance,
+      date: activity.date,
+      location: activity.location,
+      comment: activity.comment,
+      temperature: activity.temperature,
+      isFavorite: activity.isFavorite,
     };
 
     activityCardContainer.innerHTML += `

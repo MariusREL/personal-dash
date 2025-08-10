@@ -1,5 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html    <script type="module" src="./activites.js"></script>
+    <script>
+      // Enhanced GitHub Pages compatibility script
+      window.addEventListener("error", function (e) {
+        console.error("Error detected:", e);
+        if (e.message && (e.message.includes("Failed to resolve module") || e.message.includes("import"))) {
+          console.error("Module loading failed on GitHub Pages - attempting fallback");
+          document.getElementById("activity-card-container").innerHTML = 
+            '<div style="text-align: center; padding: 2rem; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; margin: 1rem;"><h3>Loading Issue Detected</h3><p>There seems to be a module loading issue on GitHub Pages. Please try refreshing the page.</p><button onclick="location.reload()" style="padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Page</button></div>';
+        }
+      });
+      
+      // Add a timeout fallback
+      setTimeout(function() {
+        const container = document.getElementById("activity-card-container");
+        if (container && (!container.innerHTML || container.innerHTML.trim() === "")) {
+          console.warn("No activities loaded after 3 seconds - possible module loading issue");
+          container.innerHTML = '<div style="text-align: center; padding: 2rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 10px; margin: 1rem;"><h3>Activities Not Loading</h3><p>The activities failed to load. This might be a temporary GitHub Pages issue.</p><button onclick="location.reload()" style="padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Try Again</button></div>';
+        }
+      }, 3000);
+    </script>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +31,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script type="module" src="./activites.js"></script>
+    <script type="module" src="./activites.js"nge></script>
     <script>
       // Fallback error handling for GitHub Pages module loading
       window.addEventListener("error", function (e) {
