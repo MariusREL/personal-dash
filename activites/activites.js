@@ -123,9 +123,12 @@ const createHtmlTemplate = function (activitiesToShow = null) {
     }
 
     const weatherIcon =
-      activity.weather ||
-      getWeatherIcon(activity.weatherCode) ||
-      "./icons/clear-day.svg";
+      (activity.weather && activity.weather.startsWith('./icons/') 
+        ? activity.weather.replace('./icons/', '../icons/')
+        : activity.weather) ||
+      (getWeatherIcon(activity.weatherCode) 
+        ? getWeatherIcon(activity.weatherCode).replace('./icons/', '../icons/')
+        : "../icons/clear-day.svg");
     const weatherDesc =
       activity.weatherDescription ||
       (activity.weatherCode
@@ -150,7 +153,7 @@ const createHtmlTemplate = function (activitiesToShow = null) {
           <div class="activityDate">
             <i class="${activityIcon}"></i>
             <div class="infotext">
-              <h2 class="runTitle">${activity.activityType}</h2>
+              <h2 class="runTitle">${activity.activityType.charAt(0).toUpperCase() + activity.activityType.slice(1)}</h2>
               <p class="date">${activity.date}</p>
             </div>
           </div>

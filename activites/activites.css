@@ -76,8 +76,19 @@ nav>div:nth-child(3) {
 
 
 img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Specific styling for pulse icon (distance) */
+.distance img {
     width: 25px;
     height: 25px;
+}
+
+/* Add margin to activity type icons to separate them from text */
+.activityDate i {
+    margin-right: 0.75rem;
 }
 
 .activitiesTitle {

@@ -2,7 +2,7 @@ export const activities = [
   {
     id: 1,
     activityType: "bike",
-    weather: "../icons/clear-day.svg",
+    weather: "./icons/clear-day.svg",
     weatherCode: 1,
     temperature: "22°C",
     duration: "1h 45m",
@@ -16,7 +16,7 @@ export const activities = [
   {
     id: 2,
     activityType: "run",
-    weather: "../icons/partly-cloudy-day.svg",
+    weather: "./icons/partly-cloudy-day.svg",
     weatherCode: 2,
     temperature: "18°C",
     duration: "42m",
@@ -29,7 +29,7 @@ export const activities = [
   {
     id: 3,
     activityType: "hike",
-    weather: "../icons/overcast.svg",
+    weather: "./icons/overcast.svg",
     weatherCode: 3,
     temperature: "15°C",
     duration: "3h 20m",
@@ -42,7 +42,7 @@ export const activities = [
   {
     id: 4,
     activityType: "bike",
-    weather: "../icons/rain.svg",
+    weather: "./icons/rain.svg",
     weatherCode: 61,
     temperature: "16°C",
     duration: "1h 15m",
@@ -55,7 +55,7 @@ export const activities = [
   {
     id: 5,
     activityType: "run",
-    weather: "../icons/clear-day.svg",
+    weather: "./icons/clear-day.svg",
     weatherCode: 0,
     temperature: "20°C",
     duration: "35m",
@@ -68,7 +68,7 @@ export const activities = [
   {
     id: 6,
     activityType: "hike",
-    weather: "../icons/partly-cloudy-day.svg",
+    weather: "./icons/partly-cloudy-day.svg",
     weatherCode: 2,
     temperature: "17°C",
     duration: "2h 30m",
@@ -81,7 +81,7 @@ export const activities = [
   {
     id: 7,
     activityType: "bike",
-    weather: "../icons/drizzle.svg",
+    weather: "./icons/drizzle.svg",
     weatherCode: 51,
     temperature: "14°C",
     duration: "2h 10m",
