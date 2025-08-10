@@ -12,17 +12,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script type="module" src="./activites.js"></script>
-    <script>
-      // Fallback error handling for GitHub Pages module loading
-      window.addEventListener("error", function (e) {
-        if (e.message.includes("Failed to resolve module")) {
-          console.error("Module loading failed on GitHub Pages:", e);
-          document.getElementById("activity-card-container").innerHTML =
-            '<p style="text-align: center; color: red; padding: 2rem;">Failed to load activities. Please refresh the page.</p>';
-        }
-      });
-    </script>
+    <script type="module" src="./activites.js" defer></script>
   </head>
   <body>
     <header class="hero-container">
