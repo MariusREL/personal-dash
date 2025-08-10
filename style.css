@@ -525,8 +525,37 @@ nav > div:nth-child(3) {
   outline-offset: 2px;
 }
 
+/* Activity navigation styling */
+.activities-icons {
+  display: none;
+}
+
+.activities-text {
+  display: inline;
+}
+
 /* Responsive form adjustments */
 @media (max-width: 768px) {
+  /* Show activity icons instead of text on mobile */
+  .activities-text {
+    display: none;
+  }
+  
+  .activities-icons {
+    display: flex;
+    gap: 0.3rem;
+  }
+  
+  .activities-icons i {
+    font-size: 0.8rem;
+    color: #000000;
+    transition: color 0.3s ease;
+  }
+  
+  .all-activities:hover .activities-icons i {
+    color: #333333;
+  }
+  
   .input-container {
     padding: 1rem;
   }
