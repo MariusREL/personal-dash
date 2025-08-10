@@ -9,7 +9,17 @@ import { weatherCodeToIcon } from "../weathercodes.js";
 
 import { activities as defaultActivities } from "../workouts.js";
 
-let activities = loadActivitiesFromStorage() || defaultActivities;
+let activities;
+try {
+  activities = loadActivitiesFromStorage() || defaultActivities;
+} catch (error) {
+  console.error("Error loading activities:", error);
+  activities = defaultActivities;
+}
+
+// Debug logging
+console.log("Activities loaded:", activities);
+console.log("Default activities:", defaultActivities);
 
 const activityFilter = document.querySelector("#activityFilter");
 const weatherFilter = document.querySelector("#weatherFilter");
@@ -108,7 +118,20 @@ const createHtmlTemplate = function (activitiesToShow = null) {
   const displayActivities = activitiesToShow || activities;
   activityCardContainer.innerHTML = "";
 
+  console.log("Creating template for activities:", displayActivities);
+
+  if (!displayActivities || displayActivities.length === 0) {
+    activityCardContainer.innerHTML =
+      '<p style="text-align: center; padding: 2rem;">No activities found.</p>';
+    return;
+  }
+
   displayActivities.forEach((activity) => {
+    if (!activity) {
+      console.error("Activity is undefined:", activity);
+      return;
+    }
+
     let activityIcon = "fa-solid fa-person-running";
     if (
       activity.activityType === "bike" ||
@@ -123,27 +146,41 @@ const createHtmlTemplate = function (activitiesToShow = null) {
     }
 
     const weatherIcon =
-      (activity.weather && activity.weather.startsWith('./icons/') 
-        ? activity.weather.replace('./icons/', '../icons/')
+      (activity.weather && activity.weather.startsWith("./icons/")
+        ? activity.weather.replace("./icons/", "../icons/")
         : activity.weather) ||
-      (getWeatherIcon(activity.weatherCode) 
-        ? getWeatherIcon(activity.weatherCode).replace('./icons/', '../icons/')
+      (getWeatherIcon && getWeatherIcon(activity.weatherCode)
+        ? getWeatherIcon(activity.weatherCode).replace("./icons/", "../icons/")
         : "../icons/clear-day.svg");
+
     const weatherDesc =
       activity.weatherDescription ||
-      (activity.weatherCode
+      (activity.weatherCode && weatherChecker
         ? weatherChecker([activity.weatherCode])
         : "Weather");
 
+    // Ensure all required fields have fallback values
+    const safeActivity = {
+      id: activity.id || "unknown",
+      activityType: activity.activityType || "Unknown",
+      duration: activity.duration || "N/A",
+      distance: activity.distance || "0",
+      date: activity.date || "Unknown date",
+      location: activity.location || "Unknown location",
+      comment: activity.comment || "No comment",
+      temperature: activity.temperature || "N/A",
+      isFavorite: Boolean(activity.isFavorite),
+    };
+
     activityCardContainer.innerHTML += `
-      <div class="activity-card" data-id="${activity.id}">
+      <div class="activity-card" data-id="${safeActivity.id}">
         <div class="card-actions">
           <button class="favorite-btn ${
-            activity.isFavorite ? "favorited" : ""
+            safeActivity.isFavorite ? "favorited" : ""
           }" title="${
-      activity.isFavorite ? "Remove from favorites" : "Add to favorites"
+      safeActivity.isFavorite ? "Remove from favorites" : "Add to favorites"
     }">
-            <i class="fa${activity.isFavorite ? "s" : "r"} fa-star"></i>
+            <i class="fa${safeActivity.isFavorite ? "s" : "r"} fa-star"></i>
           </button>
           <button class="delete-btn" title="Delete activity">
             <i class="fa-solid fa-trash"></i>
@@ -153,35 +190,38 @@ const createHtmlTemplate = function (activitiesToShow = null) {
           <div class="activityDate">
             <i class="${activityIcon}"></i>
             <div class="infotext">
-              <h2 class="runTitle">${activity.activityType.charAt(0).toUpperCase() + activity.activityType.slice(1)}</h2>
-              <p class="date">${activity.date}</p>
+              <h2 class="runTitle">${
+                safeActivity.activityType.charAt(0).toUpperCase() +
+                safeActivity.activityType.slice(1)
+              }</h2>
+              <p class="date">${safeActivity.date}</p>
             </div>
           </div>
           <div class="duration">
             <i class="fa-regular fa-clock"></i>
             <div class="infotext">
-              <h2>${activity.duration}</h2>
+              <h2>${safeActivity.duration}</h2>
               <p>duration</p>
             </div>
           </div>
           <div class="distance">
             <img src="../img/icons8-pulse-30.png" alt="A pulse sound wave" />
             <div class="infotext">
-              <h2>${activity.distance} km</h2>
+              <h2>${safeActivity.distance} km</h2>
               <p>distance</p>
             </div>
           </div>
           <div class="weather">
             <img src="${weatherIcon}" alt="Weather icon" />
             <div class="infotext">
-              <h2>${activity.temperature}</h2>
+              <h2>${safeActivity.temperature}</h2>
               <p>${weatherDesc}</p>
             </div>
           </div>
         </section>
         <section class="locationComment">
-          <p>${activity.location}</p>
-          <p>${activity.comment}</p>
+          <p>${safeActivity.location}</p>
+          <p>${safeActivity.comment}</p>
         </section>
       </div>
     `;
@@ -251,4 +291,12 @@ sortFilter.addEventListener("change", () => {
 });
 
 // Initial load
-createHtmlTemplate();
+try {
+  createHtmlTemplate();
+} catch (error) {
+  console.error("Error during initial load:", error);
+  if (activityCardContainer) {
+    activityCardContainer.innerHTML =
+      '<p style="text-align: center; color: red; padding: 2rem;">Error loading activities. Please check the console for details.</p>';
+  }
+}
