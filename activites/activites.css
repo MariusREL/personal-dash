@@ -273,6 +273,27 @@ img {
     margin: 0;
 }
 
+.reset-button {
+  display: block;
+  margin: 0.5rem auto 1.5rem auto;
+  padding: 0.5rem 1rem;
+  font-family: var(--default-font-family);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #777;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background-color: #e9ecef;
+  color: #000;
+  border-color: #ced4da;
+}
+
 @media (max-width: 768px) {
     .activity-card-container{
         grid-template-columns: 1fr;

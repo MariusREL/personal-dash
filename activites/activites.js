@@ -9,13 +9,26 @@ import { weatherCodeToIcon } from "../weathercodes.js";
 
 import { activities as defaultActivities } from "../workouts.js";
 
-let activities;
-try {
-  activities = loadActivitiesFromStorage() || defaultActivities;
-} catch (error) {
-  console.error("Error loading activities:", error);
-  activities = defaultActivities;
+const activityCardContainer = document.querySelector(
+  ".activity-card-container"
+);
+const resetButton = document.querySelector("#reset-activities-btn");
+
+if (resetButton) {
+  resetButton.addEventListener("click", () => {
+    const isConfirmed = confirm(
+      "Are you sure? This will delete all logged activities and restore the defaults."
+    );
+    if (isConfirmed) {
+      // Use removeItem for a more targeted clear
+      localStorage.removeItem("userActivities");
+      // Reload the page to apply the changes
+      location.reload();
+    }
+  });
 }
+
+let activities = loadActivitiesFromStorage() || defaultActivities;
 
 // Debug logging
 console.log("Activities loaded:", activities);
@@ -24,9 +37,6 @@ console.log("Default activities:", defaultActivities);
 const activityFilter = document.querySelector("#activityFilter");
 const weatherFilter = document.querySelector("#weatherFilter");
 const sortFilter = document.querySelector("#sortFilter");
-const activityCardContainer = document.querySelector(
-  ".activity-card-container"
-);
 
 // Weather type mapping
 const weatherTypeMap = {
