@@ -190,7 +190,9 @@ const createHtmlTemplate = function (activitiesToShow = null) {
           }" title="${
       safeActivity.isFavorite ? "Remove from favorites" : "Add to favorites"
     }">
-            <i class="fa${safeActivity.isFavorite ? "s" : "r"} fa-star"></i>
+      <i class="fa-${
+        safeActivity.isFavorite ? "solid" : "regular"
+      } fa-star"></i>
           </button>
           <button class="delete-btn" title="Delete activity">
             <i class="fa-solid fa-trash"></i>
@@ -269,17 +271,15 @@ const addButtonEventListeners = () => {
   document.querySelectorAll(".favorite-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
-      const card = e.target.closest(".activity-card");
-      const activityId = parseInt(card.dataset.id);
+      const buttonEl = e.currentTarget;
+      const card = buttonEl.closest(".activity-card");
+      const activityId = parseInt(card.dataset.id, 10);
 
-      const success = toggleFavorite(activityId);
-      if (success !== false) {
-        // Update activities array from storage
-        activities.length = 0;
-        activities.push(...(loadActivitiesFromStorage() || defaultActivities));
-        const filteredActivities = filterAndSortActivities();
-        createHtmlTemplate(filteredActivities);
-      }
+      // Toggle and always re-render (even when turning favorite off)
+      toggleFavorite(activityId);
+      activities = loadActivitiesFromStorage() || defaultActivities;
+      const filteredActivities = filterAndSortActivities();
+      createHtmlTemplate(filteredActivities);
     });
   });
 };

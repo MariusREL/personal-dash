@@ -21,20 +21,18 @@ export function loadActivitiesFromStorage() {
     const storedActivities = localStorage.getItem("userActivities");
     if (storedActivities) {
       const savedActivities = JSON.parse(storedActivities);
-      // Clear existing activities and add saved ones
-      activities.length = 0;
-      activities.push(...ensureIds(savedActivities));
-      return activities;
+      // Return a fresh array; do not mutate the default activities module
+      return ensureIds([...savedActivities]);
     } else {
       // First time user - save the default activities to localStorage
-      // initialize with default activities (ensure IDs) and persist
-      saveActivitiesToStorage(ensureIds(activities));
-      return activities;
+      const defaults = ensureIds([...activities]);
+      saveActivitiesToStorage(defaults);
+      return defaults;
     }
   } catch (error) {
     console.error("Error loading activities from localStorage:", error);
-    // Keep the default activities from workouts.js if localStorage fails
-    return activities;
+    // Fall back to a copy of defaults; do not mutate source
+    return ensureIds([...activities]);
   }
 }
 
@@ -43,11 +41,6 @@ function saveActivitiesToStorage(updatedActivities = null) {
   try {
     const activitiesToSave = ensureIds(updatedActivities || activities);
     localStorage.setItem("userActivities", JSON.stringify(activitiesToSave));
-    // Update the global activities array if we passed in updated activities
-    if (updatedActivities) {
-      activities.length = 0; // Clear the array
-      activities.push(...ensureIds(updatedActivities)); // Add all updated activities
-    }
   } catch (error) {
     console.error("Error saving activities to localStorage:", error);
   }
@@ -55,12 +48,13 @@ function saveActivitiesToStorage(updatedActivities = null) {
 
 // Function to add a new activity and save to storage
 function addActivity(newActivity) {
-  // assign an id if missing
-  ensureIds(activities);
-  const nextId = activities.reduce((m, a) => Math.max(m, a.id), 0) + 1;
+  // Work on a fresh list from storage to avoid mutating defaults
+  const list = loadActivitiesFromStorage();
+  ensureIds(list);
+  const nextId = list.reduce((m, a) => Math.max(m, a.id), 0) + 1;
   const item = { id: newActivity.id ?? nextId, ...newActivity };
-  activities.push(item);
-  saveActivitiesToStorage(activities);
+  list.push(item);
+  saveActivitiesToStorage(list);
 }
 
 // Function to delete an activity by ID
@@ -80,9 +74,11 @@ export function toggleFavorite(id) {
   const activities = loadActivitiesFromStorage();
   const index = activities.findIndex((activity) => activity.id === id);
   if (index >= 0) {
-    activities[index].isFavorite = !activities[index].isFavorite;
+    // Cache new state before saving, since saving mutates the shared array
+    const newState = !activities[index].isFavorite;
+    activities[index].isFavorite = newState;
     saveActivitiesToStorage(activities);
-    return activities[index].isFavorite;
+    return newState;
   }
   return false;
 }
